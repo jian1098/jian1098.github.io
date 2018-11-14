@@ -25,18 +25,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2018%2F11%2F10%2FHello%20World%2F</url>
-    <content type="text"><![CDATA[本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com Hello,大家好，我是本博客的作者陈进坚。欢迎来到我的个人博客，从今天起我将不定时在博客和CSDN同步发布技术文档。主要是关于PHP,Golang和区块链方面的开发技术，欢迎大家关注收藏~ 本站是基于Hexo在github上搭建的免费博客，建站步骤和主题参考： https://thief.one/2017/03/03/Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/ 除了在本博客和本人的CSDN博客中发布，所有未经授权的文章禁止转载哦，如果大家看到我的文章未授权被转载盗用了请联系我。]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>第一篇文章</tag>
-        <tag>关于博客</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Linux以太坊节点搭建]]></title>
     <url>%2F2018%2F11%2F10%2FLinux%E4%BB%A5%E5%A4%AA%E5%9D%8A%E8%8A%82%E7%82%B9%E6%90%AD%E5%BB%BA%2F</url>
     <content type="text"><![CDATA[本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com 安装Geth1234root@dserv834-mtl8:~# apt-get install software-properties-commonroot@dserv834-mtl8:~# add-apt-repository -y ppa:ethereum/ethereumroot@dserv834-mtl8:~# apt-get updateroot@dserv834-mtl8:~# apt-get install ethereum 安装后查询到geth版本即为安装成功 12345678910111213root@dserv834-mtl8:~# which geth ###查看geth路径/usr/bin/gethroot@dserv834-mtl8:~# geth versionGethVersion: 1.8.12-stableGit Commit: 37685930d953bcbe023f9bc65b135a8d8b8f1488Architecture: amd64Protocol Versions: [63 62]Network Id: 1Go Version: go1.10Operating System: linuxGOPATH=GOROOT=/usr/lib/go-1.10 创建Geth启动/停止脚本查看本地IP地址，得到内网地址为173.209.49.10 12345678910root@dserv834-mtl8:~# ifconfig -aeno1 Link encap:Ethernet HWaddr ac:1f:6b:82:8c:f4 inet addr:173.209.49.10 Bcast:173.209.49.15 Mask:255.255.255.248 inet6 addr: fe80::ae1f:6bff:fe82:8cf4/64 Scope:Link UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1 RX packets:164109642 errors:0 dropped:10 overruns:0 frame:0 TX packets:143189840 errors:0 dropped:0 overruns:0 carrier:0 collisions:0 txqueuelen:1000 RX bytes:87852826043 (87.8 GB) TX bytes:35500135072 (35.5 GB) Memory:df200000-df27ffff 创建geth启动脚本starteth.sh，将第二行开始的脚本复制保存，需要修改rpcaddr的ip，datadir可以省略，一般将datadir改为大容量的数据盘目录 1234root@dserv834-mtl8:~# vi starteth.sh #!/bin/bashnohup geth --rpcaddr &quot;173.209.49.10&quot; --rpc --rpccorsdomain=&quot;*&quot; --datadir &quot;/data/ethereum&quot; &gt;&gt; geth.log 2&gt;&amp;1 &amp; 创建geth停止脚本stopeth.sh，将第二行开始的脚本复制保存 123456789root@dserv834-mtl8:~# more stopeth.sh #!/bin/bashPIDS=`ps -ef |grep geth |grep -v grep | awk &apos;&#123;print $2&#125;&apos;`if [ &quot;$PIDS&quot; != &quot;&quot; ]; then kill -9 $PIDSelse echo `date +%F&quot; &quot;%H:%M:%S` &quot;Geth is NOT runing!&quot;fi 配置脚本执行权限 1234root@dserv834-mtl8:~# chmod u+x st*.shroot@dserv834-mtl8:~# ls -la *.sh-rwxr--r-- 1 root root 95 Jul 10 11:41 starteth.sh-rwxr--r-- 1 root root 171 Jul 11 21:49 stopeth.sh 启动geth程序同步区块数据 启动Geth开始同步数据，通过查看geth.log来监控Geth的同步情况 1234567root@dserv834-mtl8:~# ./starteth.shroot@dserv834-mtl8:~# tail -f geth.logINFO [07-11|21:51:06.609] Imported new chain segment blocks=1 txs=55 mgas=7.992 elapsed=368.336ms mgasps=21.697 number=5948083 hash=14c024…a9d1bb cache=267.07mBINFO [07-11|21:51:10.051] Imported new chain segment blocks=1 txs=43 mgas=7.987 elapsed=105.155ms mgasps=75.959 number=5948084 hash=ede212…56e3b8 cache=267.22mBINFO [07-11|21:51:13.530] Imported new chain segment blocks=1 txs=133 mgas=7.961 elapsed=431.951ms mgasps=18.431 number=5948085 hash=533343…c40637 cache=267.59mBINFO [07-11|21:51:17.785] Imported new chain segment blocks=1 txs=51 mgas=7.982 elapsed=304.528ms mgasps=26.211 number=5948086 hash=8918b3…263ea8 cache=268.06mB.......... 一般情况下geth从0开始同步需要3天左右的时间，由服务器的带宽和性能决定，可以购买境外的服务器，如香港的阿里云。 判断同步完成geth在同步的时候，通过geth console查看eth.blockNumber命令查询区块高度，如果得到的结果是0，说明没有同步完成，如果得到最新的区块，说明已经同步到最新区块了。]]></content>
@@ -47,6 +35,18 @@
         <tag>以太坊</tag>
         <tag>ethereum</tag>
         <tag>节点搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2018%2F11%2F10%2FHello%20World%2F</url>
+    <content type="text"><![CDATA[本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com Hello,大家好，我是本博客的作者陈进坚。欢迎来到我的个人博客，从今天起我将不定时在博客和CSDN同步发布技术文档。主要是关于PHP,Golang和区块链方面的开发技术，欢迎大家关注收藏~ 本站是基于Hexo在github上搭建的免费博客，建站步骤和主题参考： https://thief.one/2017/03/03/Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/ 除了在本博客和本人的CSDN博客中发布，所有未经授权的文章禁止转载哦，如果大家看到我的文章未授权被转载盗用了请联系我。]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>第一篇文章</tag>
+        <tag>关于博客</tag>
       </tags>
   </entry>
   <entry>
