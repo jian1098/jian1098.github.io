@@ -114,7 +114,7 @@
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装Geth1234root@dserv834-mtl8:~#  apt-get install software-prop">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-21T07:13:26.760Z">
+<meta property="og:updated_time" content="2018-11-21T07:48:02.603Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux以太坊节点搭建">
 <meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装Geth1234root@dserv834-mtl8:~#  apt-get install software-prop">
@@ -450,6 +450,7 @@ $(function() {
         <div class="post-meta">
           <span class="post-time">
             
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
@@ -566,7 +567,6 @@ $(function() {
 <p>本文作者：陈进坚<br>博客地址：<a href="https://jian1098.github.io">https://jian1098.github.io</a><br>CSDN博客：<a href="https://blog.csdn.net/c_jian" target="_blank" rel="noopener">https://blog.csdn.net/c_jian</a><br>简书：<a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" rel="noopener">https://www.jianshu.com/u/8ba9ac5706b6</a><br>联系方式：<a href="mailto:jian1098@qq.com" target="_blank" rel="noopener">jian1098@qq.com</a></p>
 </blockquote>
 <h3 id="安装Geth"><a href="#安装Geth" class="headerlink" title="安装Geth"></a>安装Geth</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@dserv834-mtl8:~#  apt-get install software-properties-common</span><br><span class="line">root@dserv834-mtl8:~#  add-apt-repository -y ppa:ethereum/ethereum</span><br><span class="line">root@dserv834-mtl8:~#  apt-get update</span><br><span class="line">root@dserv834-mtl8:~#  apt-get install ethereum</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
 <p>安装后查询到geth版本即为安装成功</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@dserv834-mtl8:~# which geth  ###查看geth路径</span><br><span class="line">/usr/bin/geth</span><br><span class="line">root@dserv834-mtl8:~# geth version</span><br><span class="line">Geth</span><br><span class="line">Version: 1.8.12-stable</span><br><span class="line">Git Commit: 37685930d953bcbe023f9bc65b135a8d8b8f1488</span><br><span class="line">Architecture: amd64</span><br><span class="line">Protocol Versions: [63 62]</span><br><span class="line">Network Id: 1</span><br><span class="line">Go Version: go1.10</span><br><span class="line">Operating System: linux</span><br><span class="line">GOPATH=</span><br><span class="line">GOROOT=/usr/lib/go-1.10</span><br></pre></td></tr></table></figure>
 <h3 id="创建Geth启动-停止脚本"><a href="#创建Geth启动-停止脚本" class="headerlink" title="创建Geth启动/停止脚本"></a>创建Geth启动/停止脚本</h3><p>查看本地IP地址，得到内网地址为173.209.49.10</p>

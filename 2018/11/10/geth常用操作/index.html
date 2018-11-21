@@ -114,7 +114,7 @@
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  修改钱包密码其中–datadir参数是你的geth目录，这个目录里面包含geth和keystore目录 1$ geth ac">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-21T07:13:09.257Z">
+<meta property="og:updated_time" content="2018-11-21T07:47:53.258Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="geth常用操作">
 <meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  修改钱包密码其中–datadir参数是你的geth目录，这个目录里面包含geth和keystore目录 1$ geth ac">
@@ -450,6 +450,7 @@ $(function() {
         <div class="post-meta">
           <span class="post-time">
             
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
@@ -569,7 +570,6 @@ $(function() {
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ geth account update &quot;aad71aaaef7ce2ca356b9b80d0c385eecd8ed1ae&quot; --datadir &quot;./data0&quot;</span><br></pre></td></tr></table></figure>
 <p>先输入旧的密码解锁</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Unlocking account 0xaad71aaaef7ce2ca356b9b80d0c385eecd8ed1ae | Attempt 1/3</span><br><span class="line">Passphrase:旧的密码</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
 <p>再输入两次新的密码，按回车完成</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Unlocked account                         address=0xAAd71aAAEF7ce2CA356B9B80d0c385eeCD8eD1Ae</span><br><span class="line">Please give a new password. Do not forget this password.</span><br><span class="line">Passphrase:新的密码</span><br><span class="line">Repeat passphrase:再次输入新的密码</span><br></pre></td></tr></table></figure>
 <p>进入geth console解锁钱包检验新的密码</p>
