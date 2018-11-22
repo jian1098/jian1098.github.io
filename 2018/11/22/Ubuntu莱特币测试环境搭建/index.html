@@ -90,7 +90,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="测试环境,莱特币,ltc," />
+  <meta name="keywords" content="莱特币,ltc,测试环境," />
 
 
 
@@ -107,14 +107,14 @@
 
 
 <meta name="description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装litecoin核心123root@ubuntu:~# wget https://download.litecoin.o">
-<meta name="keywords" content="测试环境,莱特币,ltc">
+<meta name="keywords" content="莱特币,ltc,测试环境">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu莱特币测试环境搭建">
 <meta property="og:url" content="https://jian1098.github.io/2018/11/22/Ubuntu莱特币测试环境搭建/index.html">
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装litecoin核心123root@ubuntu:~# wget https://download.litecoin.o">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-22T05:41:15.253Z">
+<meta property="og:updated_time" content="2018-11-22T10:26:09.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu莱特币测试环境搭建">
 <meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装litecoin核心123root@ubuntu:~# wget https://download.litecoin.o">
@@ -525,7 +525,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  951
+                  956
                 </span>
               
 
@@ -568,7 +568,7 @@ $(function() {
 </blockquote>
 <h3 id="安装litecoin核心"><a href="#安装litecoin核心" class="headerlink" title="安装litecoin核心"></a>安装litecoin核心</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:~# wget https://download.litecoin.org/litecoin-0.16.3/linux/litecoin-0.16.3-x86_64-linux-gnu.tar.gz</span><br><span class="line">root@ubuntu:~# tar -zvxf litecoin-0.16.3-x86_64-linux-gnu.tar.gz </span><br><span class="line">root@ubuntu:~# install -m 0755 -o root -g root -t /usr/local/bin ./litecoin-0.16.3/bin/*</span><br></pre></td></tr></table></figure>
 <h3 id="创建litecoin用户"><a href="#创建litecoin用户" class="headerlink" title="创建litecoin用户"></a>创建litecoin用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo adduser --home /home/litecoin litecoin   #将litecoin用户主目录指向你的目录，然后设置账户密码</span><br><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo usermod -a -G sudo litecoin   #将litecoin用户加入到sudo群组中</span><br></pre></td></tr></table></figure>
-<h3 id="配置litecoin参数"><a href="#配置litecoin参数" class="headerlink" title="配置litecoin参数"></a>配置litecoin参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# su - litecoin  #切换到litecoin用户</span><br><span class="line">litecoin@ubuntu:~$ mkdir .litecoin	#创建目录</span><br><span class="line">litecoin@ubuntu:~$ cd .litecoin/</span><br></pre></td></tr></table></figure>
+<h3 id="配置litecoin参数"><a href="#配置litecoin参数" class="headerlink" title="配置litecoin参数"></a>配置litecoin参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# su - litecoin  #切换到litecoin用户</span><br><span class="line">litecoin@ubuntu:~$ mkdir .litecoin	#创建目录</span><br><span class="line">litecoin@ubuntu:~$ cd .litecoin/</span><br><span class="line">litecoin@ubuntu:~$ litecoin.conf</span><br></pre></td></tr></table></figure>
 <p>将下面信息全部复制，并修改rpcuser（RPC用户名），rpcpassword（RPC用户密码），rpcallowip（允许访问的ip地址）然后保存</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Generated by https://jlopp.github.io/litecoin-core-config-generator/</span><br><span class="line"></span><br><span class="line"># This config should be placed in following path:</span><br><span class="line"># ~/.litecoin/litecoin.conf</span><br><span class="line"></span><br><span class="line"># [rpc]</span><br><span class="line"># Accept command line and JSON-RPC commands.</span><br><span class="line">server=1</span><br><span class="line"></span><br><span class="line"># Username for JSON-RPC connections</span><br><span class="line">rpcuser=litecoinrpc</span><br><span class="line"></span><br><span class="line"># Password for JSON-RPC connections</span><br><span class="line">rpcpassword=litecoinrpc</span><br><span class="line"></span><br><span class="line"># Listen for JSON-RPC connections on this port</span><br><span class="line">rpcport=18332</span><br><span class="line"></span><br><span class="line"># Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), </span><br><span class="line"># a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option </span><br><span class="line"># can be specified multiple times.</span><br><span class="line">rpcallowip=192.168.1.178</span><br><span class="line">rpcallowip=192.168.1.179</span><br><span class="line"></span><br><span class="line"># Run this node on the litecoin Test Network.</span><br><span class="line">testnet=1</span><br></pre></td></tr></table></figure>
 <h3 id="启动litecoin程序"><a href="#启动litecoin程序" class="headerlink" title="启动litecoin程序"></a>启动litecoin程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">litecoin@ubuntu:~/.litecoin$ litecoind -daemon</span><br><span class="line">Litecoin server starting</span><br></pre></td></tr></table></figure>
@@ -602,11 +602,11 @@ $(function() {
   
         <div class="post-tags">
           
-            <a href="/tags/测试环境/" rel="tag"><i class="fa fa-tag"></i> 测试环境</a>
-          
             <a href="/tags/莱特币/" rel="tag"><i class="fa fa-tag"></i> 莱特币</a>
           
             <a href="/tags/ltc/" rel="tag"><i class="fa fa-tag"></i> ltc</a>
+          
+            <a href="/tags/测试环境/" rel="tag"><i class="fa fa-tag"></i> 测试环境</a>
           
         </div>
       

@@ -90,7 +90,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="比特币,测试环境," />
+  <meta name="keywords" content="测试环境,比特币," />
 
 
 
@@ -107,14 +107,14 @@
 
 
 <meta name="description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装bitcoin核心1234root@iZj6caj2e6cc3idv4u55emZ:~# sudo apt-get in">
-<meta name="keywords" content="比特币,测试环境">
+<meta name="keywords" content="测试环境,比特币">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu比特币测试环境搭建">
 <meta property="og:url" content="https://jian1098.github.io/2018/11/22/Ubuntu比特币测试环境搭建/index.html">
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装bitcoin核心1234root@iZj6caj2e6cc3idv4u55emZ:~# sudo apt-get in">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-22T05:39:54.829Z">
+<meta property="og:updated_time" content="2018-11-22T10:25:30.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu比特币测试环境搭建">
 <meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装bitcoin核心1234root@iZj6caj2e6cc3idv4u55emZ:~# sudo apt-get in">
@@ -525,7 +525,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  953
+                  959
                 </span>
               
 
@@ -568,7 +568,7 @@ $(function() {
 </blockquote>
 <h3 id="安装bitcoin核心"><a href="#安装bitcoin核心" class="headerlink" title="安装bitcoin核心"></a>安装bitcoin核心</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo apt-get install software-properties-common</span><br><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo apt-add-repository ppa:bitcoin/bitcoin</span><br><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo apt-get update</span><br><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo apt-get install bitcoind</span><br></pre></td></tr></table></figure>
 <h3 id="添加bitcoin用户"><a href="#添加bitcoin用户" class="headerlink" title="添加bitcoin用户"></a>添加bitcoin用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo adduser --home /home/bitcoin bitcoin   #将bitcoin用户主目录指向你的目录，需要切换到root用户</span><br><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# sudo usermod -a -G sudo bitcoin   #将bitcoin用户加入到sudo群组中</span><br></pre></td></tr></table></figure>
-<h3 id="配置bitcoin参数"><a href="#配置bitcoin参数" class="headerlink" title="配置bitcoin参数"></a>配置bitcoin参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# su - bitcoin  #切换到bitcoin用户</span><br><span class="line">bitcoin@ubuntu:~$ mkdir .bitcoin	#创建目录</span><br><span class="line">bitcoin@ubuntu:~$ cd .bitcoin/</span><br></pre></td></tr></table></figure>
+<h3 id="配置bitcoin参数"><a href="#配置bitcoin参数" class="headerlink" title="配置bitcoin参数"></a>配置bitcoin参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@iZj6caj2e6cc3idv4u55emZ:~# su - bitcoin  #切换到bitcoin用户</span><br><span class="line">bitcoin@ubuntu:~$ mkdir .bitcoin	#创建目录</span><br><span class="line">bitcoin@ubuntu:~$ cd .bitcoin/</span><br><span class="line">bitcoin@ubuntu:~$ vi bitcoin.conf</span><br></pre></td></tr></table></figure>
 <p>将下面信息全部复制，并修改rpcuser（RPC用户名），rpcpassword（RPC用户密码），rpcallowip（允许访问的ip地址）然后保存</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Generated by https://jlopp.github.io/bitcoin-core-config-generator/</span><br><span class="line"></span><br><span class="line"># This config should be placed in following path:</span><br><span class="line"># ~/.bitcoin/bitcoin.conf</span><br><span class="line"></span><br><span class="line"># [rpc]</span><br><span class="line"># Accept command line and JSON-RPC commands.</span><br><span class="line">server=1</span><br><span class="line"></span><br><span class="line"># Username for JSON-RPC connections</span><br><span class="line">rpcuser=bitcoinrpc</span><br><span class="line"></span><br><span class="line"># Password for JSON-RPC connections</span><br><span class="line">rpcpassword=bitcoinrpc</span><br><span class="line"></span><br><span class="line"># Listen for JSON-RPC connections on this port</span><br><span class="line">rpcport=18332</span><br><span class="line"></span><br><span class="line"># Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), </span><br><span class="line"># a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option </span><br><span class="line"># can be specified multiple times.</span><br><span class="line">rpcallowip=192.168.1.178</span><br><span class="line">rpcallowip=192.168.1.179</span><br><span class="line"></span><br><span class="line"># Run this node on the Bitcoin Test Network.</span><br><span class="line">testnet=1</span><br></pre></td></tr></table></figure>
 <h3 id="启动bitcoin程序"><a href="#启动bitcoin程序" class="headerlink" title="启动bitcoin程序"></a>启动bitcoin程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bitcoin@ubuntu:~/.bitcoin$ bitcoind -daemon</span><br><span class="line">Bitcoin server starting</span><br></pre></td></tr></table></figure>
@@ -602,9 +602,9 @@ $(function() {
   
         <div class="post-tags">
           
-            <a href="/tags/比特币/" rel="tag"><i class="fa fa-tag"></i> 比特币</a>
-          
             <a href="/tags/测试环境/" rel="tag"><i class="fa fa-tag"></i> 测试环境</a>
+          
+            <a href="/tags/比特币/" rel="tag"><i class="fa fa-tag"></i> 比特币</a>
           
         </div>
       
