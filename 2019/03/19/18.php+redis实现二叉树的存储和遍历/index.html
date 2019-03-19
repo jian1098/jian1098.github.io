@@ -90,7 +90,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Google reCAPTCHA,防注册机," />
+  <meta name="keywords" content="二叉树,php,redis," />
 
 
 
@@ -106,23 +106,18 @@
 
 
 
-<meta name="description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  环境要求 能翻墙的电脑 域名  验证原理在谷歌recaptcha申请验证密钥，配置好服务器的域名，在需要验证的表单中嵌入go">
-<meta name="keywords" content="Google reCAPTCHA,防注册机">
+<meta name="description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian联系方式：jian1098@qq.com  github地址：https://github.com/jian1098/php-redis-binary-tree 二叉树是软件开发过程中很常见的数据结构，本文通过php进行二叉树的生和遍历，通过redi">
+<meta name="keywords" content="二叉树,php,redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Google reCAPTCHA防止机器注册">
-<meta property="og:url" content="https://jian1098.github.io/2018/11/17/2.使用Google reCAPTCHA防止机器注册登录/index.html">
+<meta property="og:title" content="php+redis实现二叉树的存储和遍历">
+<meta property="og:url" content="https://jian1098.github.io/2019/03/19/18.php+redis实现二叉树的存储和遍历/index.html">
 <meta property="og:site_name" content="小坚的技术博客">
-<meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  环境要求 能翻墙的电脑 域名  验证原理在谷歌recaptcha申请验证密钥，配置好服务器的域名，在需要验证的表单中嵌入go">
+<meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian联系方式：jian1098@qq.com  github地址：https://github.com/jian1098/php-redis-binary-tree 二叉树是软件开发过程中很常见的数据结构，本文通过php进行二叉树的生和遍历，通过redi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.stack.imgur.com/F8oS0.png">
-<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541740274157&di=871f9489ca7f2bbd85e33f502bfdd937&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FL1aVyQn0RA5w69YJX0ibcM8lO5rCJRQYJib5cNVGN9gaSQXBzwtuVM9icIFHrFfqu62IHlQAYSRibiaYictuia1ch8WFA%2F640%3Fwx_fmt%3Dgif">
-<meta property="og:image" content="https://www.cmnty.com/support/wp-content/uploads/2017/06/Screen-Shot-2017-06-15-at-09.17.11.png">
-<meta property="og:image" content="https://i.stack.imgur.com/W5R5O.jpg">
-<meta property="og:updated_time" content="2018-11-21T07:49:46.578Z">
+<meta property="og:updated_time" content="2019-03-19T08:16:05.343Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Google reCAPTCHA防止机器注册">
-<meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  环境要求 能翻墙的电脑 域名  验证原理在谷歌recaptcha申请验证密钥，配置好服务器的域名，在需要验证的表单中嵌入go">
-<meta name="twitter:image" content="https://i.stack.imgur.com/F8oS0.png">
+<meta name="twitter:title" content="php+redis实现二叉树的存储和遍历">
+<meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian联系方式：jian1098@qq.com  github地址：https://github.com/jian1098/php-redis-binary-tree 二叉树是软件开发过程中很常见的数据结构，本文通过php进行二叉树的生和遍历，通过redi">
 
 
 
@@ -150,7 +145,7 @@
 
 
 
-  <link rel="canonical" href="https://jian1098.github.io/2018/11/17/2.使用Google reCAPTCHA防止机器注册登录/"/>
+  <link rel="canonical" href="https://jian1098.github.io/2019/03/19/18.php+redis实现二叉树的存储和遍历/"/>
 
 
 
@@ -173,7 +168,7 @@
 </style>
 
 
-  <title> 使用Google reCAPTCHA防止机器注册 | 小坚的技术博客 </title>
+  <title> php+redis实现二叉树的存储和遍历 | 小坚的技术博客 </title>
 </head>
 
   	 <!-- custom analytics part create by xiamo -->
@@ -422,7 +417,7 @@ $(function() {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://jian1098.github.io/2018/11/17/2.使用Google reCAPTCHA防止机器注册登录/">
+  <link itemprop="mainEntityOfPage" href="https://jian1098.github.io/2019/03/19/18.php+redis实现二叉树的存储和遍历/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="陈进坚">
@@ -446,7 +441,7 @@ $(function() {
             
             
               
-                使用Google reCAPTCHA防止机器注册
+                php+redis实现二叉树的存储和遍历
               
             
           </h2>
@@ -462,8 +457,8 @@ $(function() {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-17T17:39:09+08:00">
-                2018-11-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-19T16:04:23+08:00">
+                2019-03-19
               </time>
             
 
@@ -485,8 +480,8 @@ $(function() {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络安全/" itemprop="url" rel="index">
-                    <span itemprop="name">网络安全</span>
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
                   </a>
                 </span>
 
@@ -505,7 +500,7 @@ $(function() {
 			 
           
           
-             <span id="/2018/11/17/2.使用Google reCAPTCHA防止机器注册登录/" class="leancloud_visitors" data-flag-title="使用Google reCAPTCHA防止机器注册">
+             <span id="/2019/03/19/18.php+redis实现二叉树的存储和遍历/" class="leancloud_visitors" data-flag-title="php+redis实现二叉树的存储和遍历">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -530,7 +525,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  929
+                  1,068
                 </span>
               
 
@@ -546,7 +541,7 @@ $(function() {
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  4
+                  6
                 </span>
               
             </div>
@@ -569,46 +564,21 @@ $(function() {
 
       
         <blockquote>
-<p>本文作者：陈进坚<br>博客地址：<a href="https://jian1098.github.io">https://jian1098.github.io</a><br>CSDN博客：<a href="https://blog.csdn.net/c_jian" target="_blank" rel="noopener">https://blog.csdn.net/c_jian</a><br>简书：<a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" rel="noopener">https://www.jianshu.com/u/8ba9ac5706b6</a><br>联系方式：<a href="mailto:jian1098@qq.com" target="_blank" rel="noopener">jian1098@qq.com</a></p>
+<p>本文作者：陈进坚<br>博客地址：<a href="https://jian1098.github.io">https://jian1098.github.io</a><br>CSDN博客：<a href="https://blog.csdn.net/c_jian" target="_blank" rel="noopener">https://blog.csdn.net/c_jian</a><br>联系方式：<a href="mailto:jian1098@qq.com" target="_blank" rel="noopener">jian1098@qq.com</a></p>
 </blockquote>
-<h3 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h3><ul>
-<li>能翻墙的电脑</li>
-<li>域名</li>
-</ul>
-<h3 id="验证原理"><a href="#验证原理" class="headerlink" title="验证原理"></a>验证原理</h3><p>在谷歌recaptcha申请验证密钥，配置好服务器的域名，在需要验证的表单中嵌入google reCAPTCHA ,提交表单的时候将验证成功生成的响应码传给后台，后台将响应码post到谷歌的服务器验证地址，谷歌服务器将返回验证结果。生成响应码的页面域名必须是在谷歌页面配置的域名才能生成，只有ip也不行。google reCAPTCHA在web端有3种形式的验证</p>
-<p>1.reCAPTCHA v3 </p>
-<p>在网页加载的时候生成响应码，不需要用户进行任何操作。生成响应码的时候会稍有延迟，比网页加载完成会慢一点，确保了他人利用程序获取html代码的方式不会获取响应码。加入reCAPTCHA v3 的页面会有类似下面的图标</p>
-<p><img src="https://i.stack.imgur.com/F8oS0.png" alt=""></p>
-<p>2.reCAPTCHA v2 Checkbox 点击复选框</p>
-<p>用户点击复选框进行验证成功后生成响应码，图标如下</p>
-<p><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1541740274157&amp;di=871f9489ca7f2bbd85e33f502bfdd937&amp;imgtype=0&amp;src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FL1aVyQn0RA5w69YJX0ibcM8lO5rCJRQYJib5cNVGN9gaSQXBzwtuVM9icIFHrFfqu62IHlQAYSRibiaYictuia1ch8WFA%2F640%3Fwx_fmt%3Dgif" alt=""></p>
-<p>3.reCAPTCHA v2 Invisible 自定义按钮</p>
-<p>开发人员自定义验证的动作，验证成功后调用生成响应码的js代码生成响应码即可。图标与第1种相同。</p>
-<h3 id="申请密钥"><a href="#申请密钥" class="headerlink" title="申请密钥"></a>申请密钥</h3><p>打开网页 <a href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener">https://www.google.com/recaptcha/admin</a> 登录谷歌账号，在Label下面的输入项目名，然后选择reCAPTCHA的类型，点击Register即可注册完成，完成后可以得到Site key和Secret key。</p>
-<p><img src="https://www.cmnty.com/support/wp-content/uploads/2017/06/Screen-Shot-2017-06-15-at-09.17.11.png" alt=""></p>
-<h3 id="配置域名"><a href="#配置域名" class="headerlink" title="配置域名"></a>配置域名</h3><p>在上一步注册好之后的页面底下Domains的框中输入需要验证的域名，只有输入的域名网站才有资格生成你的响应码。</p>
-<h3 id="插入前端代码"><a href="#插入前端代码" class="headerlink" title="插入前端代码"></a>插入前端代码</h3><p>在申请密钥完成的页面中按照给出的步骤Step1加入前端代码,比如如果是v3类型的验证码：</p>
-<p>在html头部引入js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&apos;https://www.google.com/recaptcha/api.js?render=你的Site key&apos;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>由于国家防火墙的原因，大陆的网站需要将js替换为国内的js地址（js是在客户端浏览器执行的，服务器能翻墙也不行）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.recaptcha.net/recaptcha/api.js</span><br></pre></td></tr></table></figure>
-<p>生成响应码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">grecaptcha.ready(function() &#123;</span><br><span class="line"></span><br><span class="line">	grecaptcha.execute(&apos;你的Site key&apos;, &#123;action: &apos;action_name&apos;&#125;)</span><br><span class="line"></span><br><span class="line">.then(function(token) &#123;</span><br><span class="line"></span><br><span class="line">// 将这个生成的token传给后台</span><br><span class="line"></span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="后台验证"><a href="#后台验证" class="headerlink" title="后台验证"></a>后台验证</h3><p>将前端传过来的响应码和你的Secret key发送到谷歌验证地址进行验证，判断返回数据即可</p>
-<p>大陆的需要将验证链接 <a href="https://www.google.com/recaptcha/api/siteverify" target="_blank" rel="noopener">https://www.google.com/recaptcha/api/siteverify</a> 改为 <a href="https://www.recaptcha.net/recaptcha/api/siteverify" target="_blank" rel="noopener">https://www.recaptcha.net/recaptcha/api/siteverify</a></p>
-<p>php示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function send_post($url, $post_data)</span><br><span class="line">&#123;</span><br><span class="line">    $postdata = http_build_query($post_data);</span><br><span class="line">    $options = array(</span><br><span class="line">        &apos;http&apos; =&gt; array(</span><br><span class="line">            &apos;method&apos; =&gt; &apos;POST&apos;,</span><br><span class="line">            &apos;header&apos; =&gt; &apos;Content-type:application/x-www-form-urlencoded&apos;,</span><br><span class="line">            &apos;content&apos; =&gt; $postdata,</span><br><span class="line">            &apos;timeout&apos; =&gt; 15 * 60 // 超时时间（单位:s）</span><br><span class="line">        )</span><br><span class="line">    );</span><br><span class="line">    $context = stream_context_create($options);</span><br><span class="line">    $result = file_get_contents($url, false, $context);</span><br><span class="line">    return $result;</span><br><span class="line">&#125;</span><br><span class="line">		    </span><br><span class="line">$post_data = array(        </span><br><span class="line">	&apos;secret&apos; =&gt; &apos;你的Secret key&apos;,        </span><br><span class="line">	&apos;response&apos; =&gt; $_POST[&quot;g-recaptcha-response&quot;]    //前端传过来的响应码</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">$recaptcha_json_result = send_post(&apos;https://www.google.com/recaptcha/api/siteverify&apos;, $post_data); </span><br><span class="line">$recaptcha_result = json_decode($recaptcha_json_result);   </span><br><span class="line">//在这里处理返回的值 </span><br><span class="line">var_dump($recaptcha_result);    </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="隐藏reCAPTCHA图标"><a href="#隐藏reCAPTCHA图标" class="headerlink" title="隐藏reCAPTCHA图标"></a>隐藏reCAPTCHA图标</h3><p>根据reCAPTCHA的服务条款（即你必须同意），您必须告知游客有关网站上的验证码实现 </p>
-<p><img src="https://i.stack.imgur.com/W5R5O.jpg" alt=""></p>
-<p>但是有时候在手机页面这么大的一个图标确实会影响到页面效果，不得不隐藏的时候可以在前端做一下处理</p>
-<ul>
-<li><p>设置<code>data-badge</code>属性<code>inline</code> </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=&quot;submit&quot; data-sitekey=&quot;your_site_key&quot; data-callback=&quot;onSubmit&quot; data-badge=&quot;inline&quot; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加CSS </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.grecaptcha-badge &#123; </span><br><span class="line">    display: none; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<p><code>github</code>地址：<a href="https://github.com/jian1098/php-redis-binary-tree" target="_blank" rel="noopener">https://github.com/jian1098/php-redis-binary-tree</a></p>
+<p>二叉树是软件开发过程中很常见的数据结构，本文通过<code>php</code>进行二叉树的生和遍历，通过<code>redis</code>将二叉树存储，也可以将<code>redis</code>换成其他的关系型数据库，但是读写速度嘛是差挺远的。代码中有足够的注释，应该不难懂，仅供参考和学习。</p>
+<p>首先封装二叉树的生成和遍历算法</p>
+<p><code>tree.php</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">// 节点类</span><br><span class="line">Class BTNode</span><br><span class="line">&#123;</span><br><span class="line">    public $data;</span><br><span class="line">    public $lChild;</span><br><span class="line">    public $rChild;</span><br><span class="line"></span><br><span class="line">    public function __construct($data = null)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;data = $data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 二叉树类</span><br><span class="line">Class BinaryTree</span><br><span class="line">&#123;</span><br><span class="line">    public $btData;</span><br><span class="line"></span><br><span class="line">    public function __construct($data = null)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;btData = $data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //创建二叉树</span><br><span class="line">    public function CreateBT(&amp;$root = null)</span><br><span class="line">    &#123;</span><br><span class="line">        $elem = array_shift($this-&gt;btData);</span><br><span class="line">        if ($elem == null) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125; else if ($elem == &apos;#&apos;) &#123;</span><br><span class="line">            $root = null;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $root = new BTNode();</span><br><span class="line">            $root-&gt;data = $elem;</span><br><span class="line">            $this-&gt;CreateBT($root-&gt;lChild);</span><br><span class="line">            $this-&gt;CreateBT($root-&gt;rChild);</span><br><span class="line">        &#125;</span><br><span class="line">        return $root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //先序遍历二叉树</span><br><span class="line">    public function PreOrder($root)</span><br><span class="line">    &#123;</span><br><span class="line">        if ($root != null) &#123;</span><br><span class="line">            echo $root-&gt;data . &quot; &quot;;</span><br><span class="line">            $this-&gt;PreOrder($root-&gt;lChild);</span><br><span class="line">            $this-&gt;PreOrder($root-&gt;rChild);</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //中序遍历二叉树</span><br><span class="line">    public function InOrder($root)</span><br><span class="line">    &#123;</span><br><span class="line">        if ($root != null) &#123;</span><br><span class="line">            $this-&gt;InOrder($root-&gt;lChild);</span><br><span class="line">            echo $root-&gt;data . &quot; &quot;;</span><br><span class="line">            $this-&gt;InOrder($root-&gt;rChild);</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //后序遍历二叉树</span><br><span class="line">    public function PosOrder($root)</span><br><span class="line">    &#123;</span><br><span class="line">        if ($root != null) &#123;</span><br><span class="line">            $this-&gt;PosOrder($root-&gt;lChild);</span><br><span class="line">            $this-&gt;PosOrder($root-&gt;rChild);</span><br><span class="line">            echo $root-&gt;data . &quot; &quot;;</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //层序(广度优先)遍历二叉树</span><br><span class="line">    function LeverOrder($root)</span><br><span class="line">    &#123;</span><br><span class="line">        $queue = new SplQueue();//双向链表</span><br><span class="line">        if ($root == null)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            $queue-&gt;enqueue($root);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        while (!$queue-&gt;isEmpty()) &#123;</span><br><span class="line">            $node = $queue-&gt;bottom();</span><br><span class="line">            $queue-&gt;dequeue();</span><br><span class="line">            echo $node-&gt;data . &quot; &quot;;</span><br><span class="line">            if ($node-&gt;lChild)&#123;</span><br><span class="line">                $queue-&gt;enqueue($node-&gt;lChild);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">//                echo $node-&gt;data.&apos;的左子树为空&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">            if ($node-&gt;rChild)&#123;</span><br><span class="line">                $queue-&gt;enqueue($node-&gt;rChild);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">//                echo $node-&gt;data.&apos;的右子树为空&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着封装操作<code>redis</code>的类</p>
+<p><code>redis.php</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class MyRedis &#123;</span><br><span class="line">    private $redis;</span><br><span class="line">    private $host;  //redis ip</span><br><span class="line">    private $port;  //redis 端口</span><br><span class="line">    private $tree;</span><br><span class="line"></span><br><span class="line">    public function __construct($host,$port)&#123;</span><br><span class="line">        $this-&gt;host=$host;</span><br><span class="line">        $this-&gt;port=$port;</span><br><span class="line">        //连接redis</span><br><span class="line">        if(class_exists(&apos;Redis&apos;))&#123;</span><br><span class="line">            $this-&gt;redis = new \Redis();</span><br><span class="line">            if($this-&gt;redis-&gt;connect($this-&gt;host, $this-&gt;port))&#123;</span><br><span class="line">                $this-&gt;connect=true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            exit(&apos;redis扩展不存在&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //添加节点</span><br><span class="line">    public function addNode($id,$data)&#123;</span><br><span class="line">        if(!is_array($data))&#123;</span><br><span class="line">            return [];</span><br><span class="line">        &#125;</span><br><span class="line">        $resOrder=$this-&gt;redis-&gt;hMSet($id,$data);</span><br><span class="line">        return $resOrder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //查找节点</span><br><span class="line">    public function getNode($id)&#123;</span><br><span class="line">        return $this-&gt;redis-&gt;hGetAll($id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //修改指定节点的属性</span><br><span class="line">    public function setNode($id,$field,$value)&#123;</span><br><span class="line">        return $this-&gt;redis-&gt;hSet($id,$field,$value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取redis所有键</span><br><span class="line">    public function getKeys()&#123;</span><br><span class="line">        return $this-&gt;redis-&gt;keys(&apos;*&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取key的个数</span><br><span class="line">    public function dbSize()&#123;</span><br><span class="line">        return $this-&gt;redis-&gt;dbSize();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //清空数据库</span><br><span class="line">    public function flushDB()&#123;</span><br><span class="line">        return $this-&gt;redis-&gt;flushDB();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //前序遍历的顺序取出二叉树</span><br><span class="line">    public function tree($root_id)&#123;</span><br><span class="line">        $rootNode=$this-&gt;getNode($root_id);</span><br><span class="line">        $this-&gt;tree[]=$root_id;</span><br><span class="line">        if (isset($rootNode[&apos;left&apos;]))&#123;</span><br><span class="line">            $this-&gt;tree($rootNode[&apos;left&apos;]);</span><br><span class="line">        &#125;</span><br><span class="line">        if (isset($rootNode[&apos;right&apos;]))&#123;</span><br><span class="line">            $this-&gt;tree($rootNode[&apos;right&apos;]);</span><br><span class="line">        &#125;</span><br><span class="line">        return $this-&gt;tree;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后调用两个类进行二叉树的存取和遍历</p>
+<p><code>index.php</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">require_once &apos;redis.php&apos;;</span><br><span class="line">require_once &apos;tree.php&apos;;</span><br><span class="line"></span><br><span class="line">$myredis=new MyRedis(&apos;127.0.0.1&apos;,&apos;6379&apos;);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">    假设我构造一颗如下的二叉树</span><br><span class="line">            1</span><br><span class="line">        2       3</span><br><span class="line">      #   4   #   #</span><br><span class="line">        #   #</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">//添加节点</span><br><span class="line">//$data=[</span><br><span class="line">//    &apos;left&apos;      =&gt;      &apos;2&apos;,</span><br><span class="line">//    &apos;right&apos;     =&gt;      &apos;3&apos;,</span><br><span class="line">//];</span><br><span class="line">//$res=$myredis-&gt;addNode(1,$data);</span><br><span class="line">//</span><br><span class="line">//$data=[</span><br><span class="line">//    &apos;left&apos;      =&gt;      &apos;#&apos;,</span><br><span class="line">//    &apos;right&apos;     =&gt;      &apos;4&apos;,</span><br><span class="line">//];</span><br><span class="line">//$res=$myredis-&gt;addNode(2,$data);</span><br><span class="line">//</span><br><span class="line">//$data=[</span><br><span class="line">//    &apos;left&apos;      =&gt;      &apos;#&apos;,</span><br><span class="line">//    &apos;right&apos;     =&gt;      &apos;#&apos;,</span><br><span class="line">//];</span><br><span class="line">//$res=$myredis-&gt;addNode(3,$data);</span><br><span class="line">//</span><br><span class="line">//$data=[</span><br><span class="line">//    &apos;left&apos;      =&gt;      &apos;#&apos;,</span><br><span class="line">//    &apos;right&apos;     =&gt;      &apos;#&apos;,</span><br><span class="line">//];</span><br><span class="line">//$res=$myredis-&gt;addNode(4,$data);</span><br><span class="line">//print_r($res);</span><br><span class="line"></span><br><span class="line">//修改节点信息</span><br><span class="line">//$res=$myredis-&gt;setNode(1,&apos;left&apos;,2);</span><br><span class="line">//print_r($res);</span><br><span class="line"></span><br><span class="line">//查询指定节点</span><br><span class="line">//$res=$myredis-&gt;getNode(1);</span><br><span class="line">//print_r($res);</span><br><span class="line"></span><br><span class="line">//清空数据</span><br><span class="line">//$res=$myredis-&gt;flushDB();</span><br><span class="line">//获取redis所有键</span><br><span class="line">//$res=$myredis-&gt;getKeys();</span><br><span class="line">//print_r($res);</span><br><span class="line"></span><br><span class="line">//前序遍历的顺序从redis读取节点</span><br><span class="line">$data=$myredis-&gt;tree(1);//$data = array(1,2,&apos;#&apos;,4,&apos;#&apos;,&apos;#&apos;,3,&apos;#&apos;,&apos;#&apos;);</span><br><span class="line"></span><br><span class="line">//生成二叉树</span><br><span class="line">$tree = new BinaryTree($data);</span><br><span class="line">$root = $tree-&gt;CreateBT();</span><br><span class="line"></span><br><span class="line">//遍历二叉树</span><br><span class="line">echo &apos;前序：&apos;;</span><br><span class="line">$tree-&gt;PreOrder($root);</span><br><span class="line">echo &apos;&lt;br&gt;中序：&apos;;</span><br><span class="line">$tree-&gt;InOrder($root);</span><br><span class="line">echo &apos;&lt;br&gt;后序：&apos;;</span><br><span class="line">$tree-&gt;PosOrder($root);</span><br><span class="line">echo &apos;&lt;br&gt;层序：&apos;;</span><br><span class="line">$tree-&gt;LeverOrder($root);</span><br></pre></td></tr></table></figure>
+<p>执行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">前序：1 2 4 3 </span><br><span class="line">中序：2 4 1 3 </span><br><span class="line">后序：4 2 3 1 </span><br><span class="line">层序：1 2 3 4</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -622,9 +592,11 @@ $(function() {
   
         <div class="post-tags">
           
-            <a href="/tags/Google-reCAPTCHA/" rel="tag"><i class="fa fa-tag"></i> Google reCAPTCHA</a>
+            <a href="/tags/二叉树/" rel="tag"><i class="fa fa-tag"></i> 二叉树</a>
           
-            <a href="/tags/防注册机/" rel="tag"><i class="fa fa-tag"></i> 防注册机</a>
+            <a href="/tags/php/" rel="tag"><i class="fa fa-tag"></i> php</a>
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
           
         </div>
       
@@ -680,16 +652,16 @@ $(function() {
 
         <li class="post-copyright-link">
           <strong>本文标题：</strong>
-          <a href="https://jian1098.github.io/2018/11/17/2.使用Google reCAPTCHA防止机器注册登录/" title="使用Google reCAPTCHA防止机器注册">使用Google reCAPTCHA防止机器注册</a>
+          <a href="https://jian1098.github.io/2019/03/19/18.php+redis实现二叉树的存储和遍历/" title="php+redis实现二叉树的存储和遍历">php+redis实现二叉树的存储和遍历</a>
         </li>
 
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="https://jian1098.github.io/2018/11/17/2.使用Google reCAPTCHA防止机器注册登录/" title="使用Google reCAPTCHA防止机器注册">https://jian1098.github.io/2018/11/17/2.使用Google reCAPTCHA防止机器注册登录/</a>
+          <a href="https://jian1098.github.io/2019/03/19/18.php+redis实现二叉树的存储和遍历/" title="php+redis实现二叉树的存储和遍历">https://jian1098.github.io/2019/03/19/18.php+redis实现二叉树的存储和遍历/</a>
         </li>
 
         <li class="post-copyright-date">
-            <strong>发布时间：</strong>2018年11月17日 - 17时11分
+            <strong>发布时间：</strong>2019年3月19日 - 16时03分
         </li>  
 
         <li class="post-copyright-license">
@@ -703,8 +675,8 @@ $(function() {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/17/6.LNMP下配置免费SSL安全证书(https)/" rel="next" title="LNMP下配置免费SSL安全证书(https)">
-                <i class="fa fa-chevron-left"></i> LNMP下配置免费SSL安全证书(https)
+              <a href="/2019/02/28/17.使用Supervisor 实现Linux守护进程/" rel="next" title="使用Supervisor实现Linux守护进程">
+                <i class="fa fa-chevron-left"></i> 使用Supervisor实现Linux守护进程
               </a>
             
           </div>
@@ -712,10 +684,6 @@ $(function() {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/22/12.Ubuntu比特币测试环境搭建/" rel="prev" title="Ubuntu比特币测试环境搭建">
-                Ubuntu比特币测试环境搭建 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -802,17 +770,8 @@ $(function() {
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/header.jpg"
@@ -925,22 +884,6 @@ $(function() {
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境要求"><span class="nav-number">1.</span> <span class="nav-text">环境要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证原理"><span class="nav-number">2.</span> <span class="nav-text">验证原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#申请密钥"><span class="nav-number">3.</span> <span class="nav-text">申请密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置域名"><span class="nav-number">4.</span> <span class="nav-text">配置域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入前端代码"><span class="nav-number">5.</span> <span class="nav-text">插入前端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后台验证"><span class="nav-number">6.</span> <span class="nav-text">后台验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐藏reCAPTCHA图标"><span class="nav-number">7.</span> <span class="nav-text">隐藏reCAPTCHA图标</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
