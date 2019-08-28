@@ -114,7 +114,7 @@
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  Geth的下载安装本文在64位windows10环境下搭建，其他系统或许会略有不同。首先在官方网站https://geth.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-26T05:24:35.796Z">
+<meta property="og:updated_time" content="2019-08-26T05:58:44.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows下以太坊私有链搭建">
 <meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  Geth的下载安装本文在64位windows10环境下搭建，其他系统或许会略有不同。首先在官方网站https://geth.">
@@ -525,7 +525,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,234
+                  1,326
                 </span>
               
 
@@ -572,15 +572,18 @@ $(function() {
 <h3 id="初始化创世区块"><a href="#初始化创世区块" class="headerlink" title="初始化创世区块"></a>初始化创世区块</h3><p>打开cmd，进入到privatechain目录下然后执行下面的命令即可完成创世区块的初始化 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ geth --datadir data init genesis.json </span><br><span class="line"></span><br><span class="line">INFO [10-24|14:12:56] Maximum peer count                       ETH=25 LES=0 total=25</span><br><span class="line">INFO [10-24|14:12:56] Allocated cache and file handles         database=D:\\Ethereum\\data\\geth\\chaindata cache=16 handles=16</span><br><span class="line">INFO [10-24|14:12:56] Writing custom genesis block</span><br><span class="line">INFO [10-24|14:12:56] Persisted trie from memory database      nodes=0 size=0.00B time=0s gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B</span><br><span class="line">INFO [10-24|14:12:56] Successfully wrote genesis state         database=chaindata                           hash=6231b0 …a0300b</span><br><span class="line">INFO [10-24|14:12:56] Allocated cache and file handles         database=D:\\Ethereum\\data\\geth\\lightchaindata cache=16 handles=16</span><br><span class="line">INFO [10-24|14:12:56] Writing custom genesis block</span><br><span class="line">INFO [10-24|14:12:56] Persisted trie from memory database      nodes=0 size=0.00B time=0s gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B</span><br><span class="line">INFO [10-24|14:12:56] Successfully wrote genesis state         database=lightchaindata                           hash=6231b0…a0300b</span><br></pre></td></tr></table></figure>
 <h3 id="启动私有链"><a href="#启动私有链" class="headerlink" title="启动私有链"></a>启动私有链</h3><p>打开cmd，进入到privatechain目录下然后执行下面的命令即可启动私有链，命令中的ip地址请自行换成你本机的ip，–datadir换成自己的私有链所在的目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ geth --port 3000 --networkid 15 --maxpeers=3 --rpc --rpcport 8545 --rpcaddr 127.0.0.1 --rpccorsdomain &quot;*&quot;  --rpcapi=&quot;db,eth,web3,personal,admin,txpool&quot; --gcmode archive console</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ geth --port 3000 --networkid 15 --maxpeers=3 --rpc --rpcport 8545 --rpcaddr 127.0.0.1 --rpccorsdomain &quot;*&quot;  --rpcapi=&quot;db,eth,web3,personal,admin,txpool,net&quot; --gcmode=archive console</span><br></pre></td></tr></table></figure>
 <p>得到以下信息，表示已经启动私有链并进入geth console</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">INFO [10-24|14:16:13] Maximum peer count                       ETH=3 LES=0 total=3</span><br><span class="line">INFO [10-24|14:16:13] Starting peer-to-peer node               instance=Geth/v1.8.3-stable-329ac18e/windows-amd64/go1.10</span><br><span class="line">INFO [10-24|14:16:13] Allocated cache and file handles         database=D:\\Ethereum\\data\\geth\\chaindata cache=768 handles=1024</span><br><span class="line">WARN [10-24|14:16:13] Upgrading database to use lookup entries</span><br><span class="line">INFO [10-24|14:16:13] Database deduplication successful        deduped=0</span><br><span class="line">INFO [10-24|14:16:13] Initialised chain configuration          config=&quot;&#123;ChainID: &lt;nil&gt; Homestead: &lt;nil&gt; DAO: &lt;nil&gt; DAOSupport: false EIP150: &lt;nil&gt; EIP155: &lt;nil&gt; EIP158: &lt;nil&gt; Byzantium: &lt;nil&gt; Constantinople: &lt;nil&gt; Engine: unknown&#125;&quot;</span><br><span class="line">INFO [10-24|14:16:13] Disk storage enabled for ethash caches   dir=D:\\Ethereum\\data\\geth\\ethash count=3</span><br><span class="line">INFO [10-24|14:16:13] Disk storage enabled for ethash DAGs     dir=C:\\Users\\Jian\\AppData\\Ethash count=2</span><br><span class="line">INFO [10-24|14:16:13] Initialising Ethereum protocol           versions=&quot;[63 62]&quot; network=15</span><br><span class="line">INFO [10-24|14:16:13] Loaded most recent local header          number=0 hash=6231b0…a0300b td=1024</span><br><span class="line">INFO [10-24|14:16:13] Loaded most recent local full block      number=0 hash=6231b0…a0300b td=1024</span><br><span class="line">INFO [10-24|14:16:13] Loaded most recent local fast block      number=0 hash=6231b0…a0300b td=1024</span><br><span class="line">INFO [10-24|14:16:13] Regenerated local transaction journal    transactions=0 accounts=0</span><br><span class="line">INFO [10-24|14:16:13] Starting P2P networking</span><br><span class="line">INFO [10-24|14:16:16] UDP listener up                          self=enode://9ab0834740439ca962b4e2b43d85f555cff7585c0b4bf3a076f16a95ad6037beab7f8b9f2b9691c60c128cf212f38fe469930016cde71574b84733457ed45813@[::]:3000</span><br><span class="line">INFO [10-24|14:16:16] RLPx listener up                         self=enode://9ab0834740439ca962b4e2b43d85f555cff7585c0b4bf3a076f16a95ad6037beab7f8b9f2b9691c60c128cf212f38fe469930016cde71574b84733457ed45813@[::]:3000</span><br><span class="line">INFO [10-24|14:16:16] IPC endpoint opened                      url=\\\\.\\pipe\\geth.ipc</span><br><span class="line">INFO [10-24|14:16:16] HTTP endpoint opened                     url=http://192.168.1.168:8545 cors=* vhosts=localhost</span><br><span class="line">Welcome to the Geth JavaScript console!</span><br><span class="line"></span><br><span class="line">instance: Geth/v1.8.3-stable-329ac18e/windows-amd64/go1.10</span><br><span class="line"> modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0</span><br><span class="line"></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 <p>启动私有链之后就可以在控制台中进行账号操作和挖矿等相关操作了 ，启动命令加上 –gcmode archive 表示将区块信息及时保存，不然重启geth后区块数据可能会丢失，还原到上次启动之前的状态。</p>
+<p>注意：如果是云服务器，要提供<code>rpc</code>服务给其他电脑使用的话，<code>rpcaddr</code>要填写云服务器的内网地址。</p>
 <p>账号和挖矿等操作请参见我的另一篇文章：<a href="https://jian1098.github.io/2018/12/22/Ubuntu%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E6%90%AD%E5%BB%BA/">Ubuntu以太坊私有链搭建</a></p>
-<h3 id="图形化客户端"><a href="#图形化客户端" class="headerlink" title="图形化客户端"></a>图形化客户端</h3><p>除了使用命令行操作，以太坊还提供了图形界面Mist和Ethereum Wallet，两者功能上相同，下载其中一个即可</p>
+<h3 id="图形化客户端"><a href="#图形化客户端" class="headerlink" title="图形化客户端"></a>图形化客户端</h3><p>除了使用命令行操作，以太坊还提供了图形界面<code>Mist</code>和<code>Ethereum Wallet</code>，两者功能上相同，下载其中一个即可</p>
 <p>下载地址：<a href="https://github.com/ethereum/mist/releases/" target="_blank" rel="noopener">https://github.com/ethereum/mist/releases/</a>   ，windows建议下载.zip免安装压缩版，解压就可以用了。exe后缀的启动程序时好像会一直卡在“Downloading new node”的启动页面。</p>
 <p>国内无法访问的话可以到以太坊爱好者的网站下载：<a href="http://ethfans.org/wikis/Wallet-Mirror" target="_blank" rel="noopener">http://ethfans.org/wikis/Wallet-Mirror</a> </p>
 <p>安装完成打开程序，第一次打开需要一段时间。客户端默认是同步公链区块的，所以想要在图形界面进入私有链，必须先在命令行启动私有链再打开客户端。进入私有链客户端启动界面的右上角会有PRIVATE-NET标记，进入程序后中间也有Private-net的标记。</p>
+<p>如果要连接远程的服务器，那需要在命令行填写参数的方式启动，进入到<code>Mist</code>和<code>Ethereum Wallet</code>的安装目录，执行下面的命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./mist.exe --rpc http://Your_Server_IP:8545</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -675,8 +678,8 @@ $(function() {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/22/2.使用Google reCAPTCHA防止机器注册登录/" rel="next" title="使用Google reCAPTCHA防止机器注册">
-                <i class="fa fa-chevron-left"></i> 使用Google reCAPTCHA防止机器注册
+              <a href="/2019/07/22/19.Thinkphp5添加谷歌双重验证/" rel="next" title="Thinkphp5添加谷歌双重验证">
+                <i class="fa fa-chevron-left"></i> Thinkphp5添加谷歌双重验证
               </a>
             
           </div>
@@ -685,8 +688,8 @@ $(function() {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/22/7.Ubuntu以太坊私有链搭建/" rel="prev" title="Ubuntu以太坊私有链搭建">
-                Ubuntu以太坊私有链搭建 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/22/8.以太坊代币开发/" rel="prev" title="以太坊代币开发">
+                以太坊代币开发 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -932,7 +935,7 @@ $(function() {
 </div>
 
 <div class="theme-info">
-  <span class="post-count"># 博客全站共28.4k字</span>
+  <span class="post-count"># 博客全站共28.6k字</span>
 </div>
 <script>
 (function(){

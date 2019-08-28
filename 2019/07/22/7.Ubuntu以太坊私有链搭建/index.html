@@ -114,7 +114,7 @@
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装geth123jian@ubuntu:~$ sudo add-apt-repository -y ppa:ethereu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-22T09:03:35.106Z">
+<meta property="og:updated_time" content="2019-08-26T06:00:08.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu以太坊私有链搭建">
 <meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装geth123jian@ubuntu:~$ sudo add-apt-repository -y ppa:ethereu">
@@ -525,7 +525,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2,346
+                  2,420
                 </span>
               
 
@@ -541,7 +541,7 @@ $(function() {
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  11
+                  12
                 </span>
               
             </div>
@@ -622,10 +622,10 @@ $(function() {
 </table>
 <p>创建创世区块</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">jian@ubuntu:~/ethereum$ geth --datadir data init genesis.json</span><br><span class="line"></span><br><span class="line">WARN [12-20|00:01:37.255] Sanitizing cache to Go&apos;s GC limits       provided=1024 updated=661</span><br><span class="line">INFO [12-20|00:01:37.257] Maximum peer count                       ETH=25 LES=0 total=25</span><br><span class="line">INFO [12-20|00:01:37.276] Allocated cache and file handles         database=/home/jian/ethereum/data/geth/chaindata cache=16 handles=16</span><br><span class="line">INFO [12-20|00:01:37.285] Writing custom genesis block </span><br><span class="line">INFO [12-20|00:01:37.286] Persisted trie from memory database      nodes=0 size=0.00B time=2.214µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B</span><br><span class="line">INFO [12-20|00:01:37.287] Successfully wrote genesis state         database=chaindata                               hash=6231b0…a0300b</span><br><span class="line">INFO [12-20|00:01:37.287] Allocated cache and file handles         database=/home/jian/ethereum/data/geth/lightchaindata cache=16 handles=16</span><br><span class="line">INFO [12-20|00:01:37.292] Writing custom genesis block </span><br><span class="line">INFO [12-20|00:01:37.293] Persisted trie from memory database      nodes=0 size=0.00B time=2.226µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B</span><br><span class="line">INFO [12-20|00:01:37.294] Successfully wrote genesis state         database=lightchaindata                               hash=6231b0…a0300b</span><br></pre></td></tr></table></figure>
-<h3 id="启动私有链"><a href="#启动私有链" class="headerlink" title="启动私有链"></a>启动私有链</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jian@ubuntu:~/ethereum$ geth --port 3000 --networkid 15 --datadir=&quot;data&quot; --maxpeers=3 --rpc --rpcport 8545 --rpcaddr 127.0.0.1 --rpccorsdomain &quot;*&quot;  --rpcapi=&quot;db,eth,web3,personal,admin,txpool&quot; console</span><br></pre></td></tr></table></figure>
+<h3 id="启动私有链"><a href="#启动私有链" class="headerlink" title="启动私有链"></a>启动私有链</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jian@ubuntu:~/ethereum$ geth --port 3000 --networkid 15 --datadir=&quot;data&quot; --maxpeers=3 --rpc --rpcport 8545 --rpcaddr 127.0.0.1 --rpccorsdomain &quot;*&quot;  --rpcapi=&quot;db,eth,web3,personal,admin,txpool,net&quot; console</span><br></pre></td></tr></table></figure>
 <p>启动成功会进入js控制台</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Welcome to the Geth JavaScript console!</span><br><span class="line"></span><br><span class="line">instance: Geth/v1.8.20-stable-24d727b6/linux-amd64/go1.10.4</span><br><span class="line"> modules: admin:1.0 debug:1.0 eth:1.0 ethash:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0</span><br><span class="line"></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-<p>退出私有链只需要输入<code>exit</code>即可，如果要让另外一台电脑访问私有链，需要将 –rpcaddr 设置为本机ip</p>
+<p>退出私有链只需要输入<code>exit</code>即可，如果要让另外一台电脑访问私有链，需要将<code>--rpcaddr</code>设置为本机ip；如果是云服务器，要提供<code>rpc</code>服务给其他电脑使用的话，<code>rpcaddr</code>要填写云服务器的内网地址。</p>
 <h3 id="创建钱包"><a href="#创建钱包" class="headerlink" title="创建钱包"></a>创建钱包</h3><p>在js控制台输入命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; personal.newAccount(&apos;123456&apos;)</span><br><span class="line">&quot;0xee340225c3b9348847c828881a34ae3237e91456&quot;</span><br></pre></td></tr></table></figure>
 <p>得到解锁密码为123456，钱包地址为”0xee340225c3b9348847c828881a34ae3237e91456”的以太坊钱包，第一个创建的钱包地址会自动作为默认钱包，挖矿得到的ETH会存入默认钱包中，查看默认钱包：</p>
@@ -651,6 +651,9 @@ $(function() {
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; eth.blockNumber</span><br><span class="line">186</span><br></pre></td></tr></table></figure>
 <h3 id="解锁钱包"><a href="#解锁钱包" class="headerlink" title="解锁钱包"></a>解锁钱包</h3><p>以太坊钱包大概每5分钟就会被锁住，交易和创建合约都需要先解锁,输入下面的命令和钱包密码即可解锁</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; personal.unlockAccount(&quot;0xee340225c3b9348847c828881a34ae3237e91456&quot;) </span><br><span class="line">Unlock account 0xee340225c3b9348847c828881a34ae3237e91456</span><br><span class="line">Passphrase: </span><br><span class="line">true</span><br></pre></td></tr></table></figure>
+<p>新版本的<code>geth</code>可能会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: account unlock with HTTP access is forbidden</span><br></pre></td></tr></table></figure>
+<p>在启动私有链的时候添加参数<code>--allow-insecure-unlock</code>即可解决</p>
 <h3 id="发送交易"><a href="#发送交易" class="headerlink" title="发送交易"></a>发送交易</h3><p>发送交易前请先解锁转出地钱包并启动挖矿，然后使用<code>eth.sendTransaction</code>命令发送交易，下面的命令将从eth.accounts[0]转5个ETH到eth.accounts[1]，也可以替换成具体的钱包地址：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; amount = web3.toWei(5,&apos;ether&apos;) </span><br><span class="line">&quot;5000000000000000000&quot; </span><br><span class="line">&gt; eth.sendTransaction(&#123;from:eth.accounts[0],to:eth.accounts[1],value:amount&#125;) </span><br><span class="line"></span><br><span class="line">I0322 19:39:36.300675 internal/ethapi/api.go:1047] Tx(0x0c59f431068937cbe9e230483bc79f59bd7146edc8ff5ec37fea6710adcab825) to: 0x814d39aa21f3eed069f2b21da7b5f857f7343afa </span><br><span class="line">&quot;0x0c59f431068937cbe9e230483bc79f59bd7146edc8ff5ec37fea6710adcab825&quot;</span><br></pre></td></tr></table></figure>
 <p>发送成功将返回交易哈希，等待挖矿执行交易，再查看余额可以看到已经到账</p>
@@ -768,8 +771,8 @@ $(function() {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/22/3.Windows下以太坊私有链搭建/" rel="next" title="Windows下以太坊私有链搭建">
-                <i class="fa fa-chevron-left"></i> Windows下以太坊私有链搭建
+              <a href="/2019/07/22/8.以太坊代币开发/" rel="next" title="以太坊代币开发">
+                <i class="fa fa-chevron-left"></i> 以太坊代币开发
               </a>
             
           </div>
@@ -778,8 +781,8 @@ $(function() {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/22/8.以太坊代币开发/" rel="prev" title="以太坊代币开发">
-                以太坊代币开发 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/22/9.geth常用操作/" rel="prev" title="geth常用操作">
+                geth常用操作 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1025,7 +1028,7 @@ $(function() {
 </div>
 
 <div class="theme-info">
-  <span class="post-count"># 博客全站共28.4k字</span>
+  <span class="post-count"># 博客全站共28.6k字</span>
 </div>
 <script>
 (function(){
