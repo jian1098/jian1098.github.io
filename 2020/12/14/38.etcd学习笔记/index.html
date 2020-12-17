@@ -1,0 +1,1459 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="etcd,服务发现," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  关于etcd简介 etcd是使用Go语言开发的一个开源的、高可用的分布式key-value存储系统，可以用于配置共享和服务的">
+<meta name="keywords" content="etcd,服务发现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="etcd学习笔记">
+<meta property="og:url" content="https://jian1098.github.io/2020/12/14/38.etcd学习笔记/index.html">
+<meta property="og:site_name" content="小坚的技术博客">
+<meta property="og:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  关于etcd简介 etcd是使用Go语言开发的一个开源的、高可用的分布式key-value存储系统，可以用于配置共享和服务的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-31T09:28:45.193Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="etcd学习笔记">
+<meta name="twitter:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  关于etcd简介 etcd是使用Go语言开发的一个开源的、高可用的分布式key-value存储系统，可以用于配置共享和服务的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jian1098.github.io/2020/12/14/38.etcd学习笔记/"/>
+
+
+
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+  <title> etcd学习笔记 | 小坚的技术博客 </title>
+</head>
+
+  	 <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script>
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c5707bae1fdaba765939b699e7e23e32";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小坚的技术博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">小坚的技术博客</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://jian1098.github.io/2020/12/14/38.etcd学习笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="不能吃的坚果">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="小坚的技术博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="小坚的技术博客" src="/images/header.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                etcd学习笔记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-14T15:10:38+08:00">
+                2020-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/etcd/" itemprop="url" rel="index">
+                    <span itemprop="name">etcd</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+             <span id="/2020/12/14/38.etcd学习笔记/" class="leancloud_visitors" data-flag-title="etcd学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,883
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+		  
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文作者：陈进坚<br>个人博客：<a href="https://jian1098.github.io">https://jian1098.github.io</a><br>CSDN博客：<a href="https://blog.csdn.net/c_jian" target="_blank" rel="noopener">https://blog.csdn.net/c_jian</a><br>简书：<a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" rel="noopener">https://www.jianshu.com/u/8ba9ac5706b6</a><br>联系方式：<a href="mailto:jian1098@qq.com" target="_blank" rel="noopener">jian1098@qq.com</a></p>
+</blockquote>
+<h3 id="关于etcd"><a href="#关于etcd" class="headerlink" title="关于etcd"></a>关于etcd</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><hr>
+<p><code>etcd</code>是使用Go语言开发的一个开源的、高可用的分布式key-value存储系统，可以用于配置共享和服务的注册和发现。</p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><hr>
+<ul>
+<li>完全复制：集群中的每个节点都可以使用完整的存档</li>
+<li>高可用性：Etcd可用于避免硬件的单点故障或网络问题</li>
+<li>一致性：每次读取都会返回跨多主机的最新写入</li>
+<li>简单：包括一个定义良好、面向用户的API（gRPC）</li>
+<li>安全：实现了带有可选的客户端证书身份验证的自动化TLS</li>
+<li>快速：每秒10000次写入的基准速度</li>
+<li>可靠：使用Raft算法实现了强一致、高可用的服务存储目录</li>
+</ul>
+<h4 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h4><hr>
+<p>etcd 作为一个高可用键值存储系统，天生就是为集群化而设计的。由于 Raft 算法在做决策时需要多数节点的投票，所以 etcd 一般部署集群推荐奇数个节点，推荐的数量为 3、5 或者 7 个节点构成一个集群。</p>
+<h4 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h4><hr>
+<p>服务发现要解决的是分布式系统中最常见的问题之一，即在同一个分布式集群中的进程或服务，要如何才能找到对方并建立连接。本质上来说，服务发现就是想要了解集群中是否有进程在监听 udp 或 tcp 端口，并且通过名字就可以查找和连接。要解决服务发现的问题，需要有下面三大支柱，缺一不可</p>
+<ul>
+<li><p>强一致性、高可用的服务存储目录。基于 Raft 算法的 etcd 就是一个强一致性高可用的服务存储目录。</p>
+</li>
+<li><p>一种注册服务和监控服务健康状态的机制。用户可以在 etcd 中注册服务，并且对注册的服务设置 <code>key TTL</code>，定时保持服务的心跳以达到监控健康状态的效果。</p>
+</li>
+<li><p>一种查找和连接服务的机制。通过在 etcd 指定的主题（由服务名称构成的服务目录）下注册的服务也能在对应的主题下查找到。</p>
+</li>
+</ul>
+<h4 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h4><ul>
+<li><p>HTTP Server：用于处理用户发送的 API 请求以及其它 etcd 节点的同步与心跳信息请求。</p>
+</li>
+<li><p>Store：用于处理 etcd 支持的各类功能的事务，包括数据索引、节点状态变更、监控与反馈、事件处理与执行等等，是 etcd 对用户提供的大多数 API 功能的具体实现。</p>
+</li>
+<li><p>Raft：Raft 强一致性算法的具体实现，是 etcd 的核心。</p>
+</li>
+<li><p>WAL：Write Ahead Log（预写式日志），是 etcd 的数据存储方式。除了在内存中存有所有数据的状态以及节点的索引以外，etcd 就通过 WAL 进行持久化存储。WAL 中，所有的数据提交前都会事先记录日志。Snapshot 是为了防止数据过多而进行的状态快照；Entry 表示存储的具体日志内容。</p>
+</li>
+</ul>
+<h3 id="安装etcd"><a href="#安装etcd" class="headerlink" title="安装etcd"></a>安装etcd</h3><p>从<code>https://github.com/etcd-io/etcd/releases</code>获取最新版本，下载解压得到<code>etcd</code>以及<code>etcdctl</code>两个程序（linux和windows相同）。其中<code>etcd</code>就是运行etcd服务的二进制文件，<code>etcdctl</code>是官方提供的命令行etcd客户端，使用<code>etcdctl</code>可以在命令行中访问etcd服务。</p>
+<p>为了方便操作可以将两个文件添加软连接到系统环境变量中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -fs /root/eosio/2.0/bin/etcd /usr/<span class="built_in">local</span>/bin/etcd</span><br><span class="line">ln -fs /root/eosio/2.0/bin/etcdctl /usr/<span class="built_in">local</span>/bin/etcdctl</span><br></pre></td></tr></table></figure>
+<p>查看版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcd --version</span><br></pre></td></tr></table></figure>
+<h3 id="启动etcd"><a href="#启动etcd" class="headerlink" title="启动etcd"></a>启动etcd</h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcd</span><br></pre></td></tr></table></figure>
+<p>可选参数：</p>
+<p><code>-name</code> 节点名称，默认是UUID </p>
+<p><code>-data-dir</code> 保存日志和快照的目录，默认为当前工作目录 </p>
+<p><code>-addr</code> 公布的ip地址和端口。 默认为127.0.0.1:2379 </p>
+<p><code>-bind-addr</code> 用于客户端连接的监听地址，默认为-addr配置 </p>
+<p><code>-peers</code> 集群成员逗号分隔的列表，例如 127.0.0.1:2380,127.0.0.1:2381 </p>
+<p><code>-peer-addr</code> 集群服务通讯的公布的IP地址，默认为 127.0.0.1:2380. </p>
+<p><code>-peer-bind-addr</code> 集群服务通讯的监听地址，默认为-peer-addr配置</p>
+<p>上述配置也可以设置配置文件，默认为<code>etcd目录/etcd.conf</code></p>
+<h3 id="键值库操作"><a href="#键值库操作" class="headerlink" title="键值库操作"></a>键值库操作</h3><hr>
+<h4 id="写（put）"><a href="#写（put）" class="headerlink" title="写（put）"></a>写（put）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl put name <span class="string">"hello world"</span>	//新增和更新都是put</span><br></pre></td></tr></table></figure>
+<h4 id="读（get）"><a href="#读（get）" class="headerlink" title="读（get）"></a>读（get）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl get name</span><br></pre></td></tr></table></figure>
+<p>根据前缀查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl get name --prefix	//查找前缀为name的</span><br></pre></td></tr></table></figure>
+<h4 id="删除（del）"><a href="#删除（del）" class="headerlink" title="删除（del）"></a>删除（del）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl del name</span><br></pre></td></tr></table></figure>
+<h4 id="事务（txn）"><a href="#事务（txn）" class="headerlink" title="事务（txn）"></a>事务（txn）</h4><p>etcd中事务是原子执行的，只支持类似if … then … else …这种表达</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//先赋值</span><br><span class="line">etcdctl put user1 bad</span><br><span class="line"></span><br><span class="line">//开启事务</span><br><span class="line">etcdctl txn --interactive</span><br><span class="line">compares:</span><br><span class="line">// 输入以下内容,注意=号两边要有空格，输入结束按两次回车</span><br><span class="line">value(<span class="string">"user1"</span>) = <span class="string">"bad"</span>      </span><br><span class="line"></span><br><span class="line">//如果 user1 = bad，则执行 get user1 </span><br><span class="line">success requests (get, put, del):</span><br><span class="line">get user1</span><br><span class="line"></span><br><span class="line">//如果 user1 != bad，则执行 put user1 good</span><br><span class="line">failure requests (get, put, del):</span><br><span class="line">put user1 good</span><br><span class="line"></span><br><span class="line">// 运行结果，执行 success</span><br><span class="line">SUCCESS</span><br><span class="line"></span><br><span class="line">user1</span><br><span class="line">bad</span><br></pre></td></tr></table></figure>
+<h4 id="监听（watch）"><a href="#监听（watch）" class="headerlink" title="监听（watch）"></a>监听（watch）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 当 stock1 的数值改变（ put 方法）的时候，watch 会收到通知，在这之前进程会阻塞</span><br><span class="line">$ etcdctl watch stock1</span><br><span class="line"></span><br><span class="line">// 新打开终端etcd 多台服务器集群</span><br><span class="line">$ <span class="built_in">export</span> ETCDCTL_API=3</span><br><span class="line">$ etcdctl put stock1 1000</span><br><span class="line"></span><br><span class="line">//在watch 终端显示</span><br><span class="line">PUT</span><br><span class="line">stock1</span><br><span class="line">1000</span><br><span class="line"></span><br><span class="line">$ etcdctl watch stock --prefix</span><br><span class="line">$ etcdctl put stock1 10</span><br><span class="line">$ etcdctl put stock2 20</span><br></pre></td></tr></table></figure>
+<h4 id="租约（lease）"><a href="#租约（lease）" class="headerlink" title="租约（lease）"></a>租约（lease）</h4><p>lease 可以设置访问的失效时间</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ etcdctl lease grant 300	//创建一个300秒的租约</span><br><span class="line"><span class="comment"># lease 326963a02758b527 granted with TTL(300s)</span></span><br><span class="line"></span><br><span class="line">$ etcdctl put sample value -- lease=326963a02758b527	//写入操作时将租约id为326963a02758b527的租约分配给sample</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">$ etcdctl get sample</span><br><span class="line"></span><br><span class="line">$ etcdctl lease keep-alive 326963a02758b520	//续约</span><br><span class="line">$ etcdctl lease revoke 326963a02758b527		//手动释放租约</span><br><span class="line">lease 326963a02758b527 revoked</span><br><span class="line"></span><br><span class="line"><span class="comment"># or after 300 seconds							  //自动释放租约</span></span><br><span class="line">$ etcdctl get sample</span><br></pre></td></tr></table></figure>
+<p>Lease提供了几个功能：</p>
+<ul>
+<li>Grant：分配一个租约。</li>
+<li>Revoke：释放一个租约。</li>
+<li>TimeToLive：获取剩余TTL时间。</li>
+<li>Leases：列举所有etcd中的租约。</li>
+<li>KeepAlive：自动定时的续约某个租约。</li>
+<li>KeepAliveOnce：为某个租约续约一次。</li>
+<li>Close：貌似是关闭当前客户端建立的所有租约。</li>
+</ul>
+<h4 id="分布式锁-lock"><a href="#分布式锁-lock" class="headerlink" title="分布式锁(lock)"></a>分布式锁(lock)</h4><p>分布式锁，一个人操作的时候，另外一个人只能看，不能操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一终端</span></span><br><span class="line">$ etcdctl lock mutex1</span><br><span class="line">mutex1/326963a02758b52d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二终端</span></span><br><span class="line">$ etcdctl lock mutex1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当第一个终端结束了，第二个终端会显示</span></span><br><span class="line">mutex1/326963a02758b53</span><br></pre></td></tr></table></figure>
+<h4 id="选举-elect"><a href="#选举-elect" class="headerlink" title="选举(elect)"></a>选举(elect)</h4><p>选举节点为leader，只有leader节点才有写入的权限，普通节点只有读权限，保证数据一致性；leader节点会定时向普通节点发送心跳，当普通节点收不到心跳时会自动选举新的leader</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ etcdctl elect one p1</span><br><span class="line"></span><br><span class="line">one/326963a02758b539</span><br><span class="line">p1</span><br><span class="line"></span><br><span class="line"><span class="comment"># another client with the same name blocks</span></span><br><span class="line">$ etcdctl elect one p2</span><br><span class="line"></span><br><span class="line">//结束第一终端，第二终端显示</span><br><span class="line">one/326963a02758b53e</span><br><span class="line">p2</span><br></pre></td></tr></table></figure>
+<h4 id="集群状态监控-endpoint"><a href="#集群状态监控-endpoint" class="headerlink" title="集群状态监控(endpoint)"></a>集群状态监控(endpoint)</h4><p>集群健康状态检查</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ etcdctl --write-out=table endpoint status</span><br><span class="line"></span><br><span class="line">$ etcdctl endpoint health</span><br></pre></td></tr></table></figure>
+<h4 id="快照-snapshot"><a href="#快照-snapshot" class="headerlink" title="快照(snapshot)"></a>快照(snapshot)</h4><p>用于保存etcd数据库的快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">etcdctl snapshot save my.db</span><br><span class="line"></span><br><span class="line">Snapshot saved at my.db</span><br><span class="line"></span><br><span class="line">etcdctl --write-out=table snapshot status my.db</span><br></pre></td></tr></table></figure>
+<h4 id="集群成员管理-Member"><a href="#集群成员管理-Member" class="headerlink" title="集群成员管理(Member)"></a>集群成员管理(Member)</h4><p>用于查看、添加，删除，更新成员</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> ENDPOINTS=127.0.0.1:2379,127.0.0.1:2479,127.0.0.1:2579	//windows下<span class="built_in">export</span>换成<span class="built_in">set</span></span><br><span class="line">etcdctl member list -w table	//成员列表-w可省略</span><br><span class="line">etcdctl --endpoints=<span class="variable">$ENDPOINTS</span> member remove b9057cfdc8ff17ce	//删除成员</span><br><span class="line">etcdctl --endpoints=<span class="variable">$ENDPOINTS</span> member add cd3 --peer-urls=http://127.0.0.1:2180	//添加成员cd3为成员名</span><br></pre></td></tr></table></figure>
+<p>启动新节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcd --name cd3 --listen-client-urls http://127.0.0.1:2179 --advertise-client-urls http://127.0.0.1:2179 --listen-peer-urls http://127.0.0.1:2180 --initial-advertise-peer-urls http://127.0.0.1:2180 --initial-cluster-state existing --initial-cluster cd2=http://127.0.0.1:2580,cd0=http://127.0.0.1:2380,cd3=http://127.0.0.1:2180,cd1=http://127.0.0.1:2480 --initial-cluster-token etcd-cluster-1</span><br></pre></td></tr></table></figure>
+<h3 id="go语言操作etcd"><a href="#go语言操作etcd" class="headerlink" title="go语言操作etcd"></a>go语言操作etcd</h3><h4 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h4><p>下载驱动包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/coreos/etcd/clientv3</span><br></pre></td></tr></table></figure>
+<p>连接服务</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cli, err := clientv3.New(clientv3.Config&#123;</span><br><span class="line">   Endpoints:   []<span class="keyword">string</span>&#123;<span class="string">"localhost:2379"</span>&#125;,</span><br><span class="line">   <span class="comment">// Endpoints: []string&#123;"localhost:2379", "localhost:22379", "localhost:32379"&#125;</span></span><br><span class="line">   DialTimeout: <span class="number">5</span> * time.Second,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="读写"><a href="#读写" class="headerlink" title="读写"></a>读写</h4><p>写</p>
+<p>第一个参数是<code>goroutine</code>的上下文<code>Context</code>，后面两个参数分别是key和value。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kv := clientv3.NewKV(cli)</span><br><span class="line">putResp, err := kv.Put(context.TODO(),<span class="string">"/test/key1"</span>, <span class="string">"Hello etcd!"</span>)	</span><br><span class="line"><span class="comment">// PutResp: &amp;&#123;cluster_id:14841639068965178418 member_id:10276657743932975437 revision:3 raft_term:7  &lt;nil&gt;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>普通查询</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getResp, err := kv.Get(context.TODO(), <span class="string">"/test/key1"</span>)</span><br></pre></td></tr></table></figure>
+<p>返回结构体</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> RangeResponse <span class="keyword">struct</span> &#123;</span><br><span class="line">	Header *ResponseHeader <span class="string">`protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`</span></span><br><span class="line">	<span class="comment">// kvs is the list of key-value pairs matched by the range request.</span></span><br><span class="line">	<span class="comment">// kvs is empty when count is requested.</span></span><br><span class="line">	Kvs []*mvccpb.KeyValue <span class="string">`protobuf:"bytes,2,rep,name=kvs" json:"kvs,omitempty"`</span></span><br><span class="line">	<span class="comment">// more indicates if there are more keys to return in the requested range.</span></span><br><span class="line">	More <span class="keyword">bool</span> <span class="string">`protobuf:"varint,3,opt,name=more,proto3" json:"more,omitempty"`</span></span><br><span class="line">	<span class="comment">// count is set to the number of keys within the range when requested.</span></span><br><span class="line">	Count <span class="keyword">int64</span> <span class="string">`protobuf:"varint,4,opt,name=count,proto3" json:"count,omitempty"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Kvs字段，保存了本次Get查询到的所有k-v对，因为上述例子只Get了一个单key，所以只需要判断一下len(Kvs)是否等于1即可知道key是否存在。</p>
+<p>按前缀查询</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rangeResp, err := kv.Get(context.TODO(), <span class="string">"/test/"</span>, clientv3.WithPrefix())</span><br></pre></td></tr></table></figure>
+<p>分页查询</p>
+<p><code>RangeResponse.More</code>和<code>Count</code>，当我们使用<code>withLimit()</code>等选项进行<code>Get</code>时会发挥作用，相当于翻页查询。</p>
+<h4 id="op操作"><a href="#op操作" class="headerlink" title="op操作"></a>op操作</h4><p>Op字面意思就是”操作”，Get和Put都属于Op，只是为了简化用户开发而开放的特殊API。</p>
+<p>其参数Op是一个抽象的操作，可以是Put/Get/Delete…；而OpResponse是一个抽象的结果，可以是PutResponse/GetResponse…</p>
+<p>可以通过Client中定义的一些方法来创建Op：</p>
+<ul>
+<li>func OpDelete(key string, opts …OpOption) Op</li>
+<li>func OpGet(key string, opts …OpOption) Op</li>
+<li>func OpPut(key, val string, opts …OpOption) Op</li>
+<li>func OpTxn(cmps []Cmp, thenOps []Op, elseOps []Op) Op</li>
+</ul>
+<p>其实和直接调用KV.Put，KV.GET没什么区别。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cli, err := clientv3.New(clientv3.Config&#123;</span><br><span class="line">    Endpoints:   endpoints,</span><br><span class="line">    DialTimeout: dialTimeout,</span><br><span class="line">&#125;)</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">&#125;</span><br><span class="line">defer cli.Close()</span><br><span class="line"></span><br><span class="line">ops := []clientv3.Op&#123;</span><br><span class="line">    clientv3.OpPut(&quot;put-key&quot;, &quot;123&quot;),</span><br><span class="line">    clientv3.OpGet(&quot;put-key&quot;),</span><br><span class="line">    clientv3.OpPut(&quot;put-key&quot;, &quot;456&quot;)&#125;</span><br><span class="line"></span><br><span class="line">for _, op := range ops &#123;</span><br><span class="line">    if _, err := cli.Do(context.TODO(), op); err != nil &#123;</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="租约"><a href="#租约" class="headerlink" title="租约"></a>租约</h4><p>创建一个租约</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grantResp, err := lease.Grant(context.TODO(), <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>分配租约</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kv.Put(context.TODO(), <span class="string">"/test/vanish"</span>, <span class="string">"vanish in 10s"</span>, clientv3.WithLease(grantResp.ID))</span><br></pre></td></tr></table></figure>
+<p>如果在Put之前Lease已经过期了，那么这个Put操作会返回error，此时你需要重新分配Lease</p>
+<p>续约</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keepResp, err := lease.KeepAliveOnce(context.TODO(), grantResp.ID)</span><br></pre></td></tr></table></figure>
+<p>如果在执行之前Lease就已经过期了，那么需要重新分配Lease。etcd并没有提供API来实现原子的Put with Lease，需要我们自己判断err重新分配Lease。</p>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">txn := kv.Txn(context.TODO())</span><br><span class="line"></span><br><span class="line">kv.Txn(context.TODO()).If(</span><br><span class="line"> clientv3.Compare(clientv3.Value(k1), <span class="string">"&gt;"</span>, v1),</span><br><span class="line"> clientv3.Compare(clientv3.Version(k1), <span class="string">"="</span>, <span class="number">2</span>)</span><br><span class="line">).Then(</span><br><span class="line"> clientv3.OpPut(k2,v2), clentv3.OpPut(k3,v3)</span><br><span class="line">).Else(</span><br><span class="line"> clientv3.OpPut(k4,v4), clientv3.OpPut(k5,v5)</span><br><span class="line">).Commit()</span><br></pre></td></tr></table></figure>
+<p>类似于clientv3.Value()\用于指定key属性的，有这么几个方法：</p>
+<ul>
+<li>func CreateRevision(key string) Cmp：key=xxx的创建版本必须满足…</li>
+<li>func LeaseValue(key string) Cmp：key=xxx的Lease ID必须满足…</li>
+<li>func ModRevision(key string) Cmp：key=xxx的最后修改版本必须满足…</li>
+<li>func Value(key string) Cmp：key=xxx的创建值必须满足…</li>
+<li>func Version(key string) Cmp：key=xxx的累计更新次数必须满足…</li>
+</ul>
+<h4 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h4><p>Watch用于监听某个键的变化, <code>Watch</code>调用后返回一个<code>WatchChan</code>，它的类型声明如下:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> WatchChan &lt;-<span class="keyword">chan</span> WatchResponse</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> WatchResponse <span class="keyword">struct</span> &#123;</span><br><span class="line">    Header pb.ResponseHeader</span><br><span class="line">    Events []*Event</span><br><span class="line"></span><br><span class="line">    CompactRevision <span class="keyword">int64</span></span><br><span class="line"></span><br><span class="line">    Canceled <span class="keyword">bool</span></span><br><span class="line"></span><br><span class="line">    Created <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://juejin.im/post/5dba5bedf265da4d461eb8ff#heading-3" target="_blank" rel="noopener">https://juejin.im/post/5dba5bedf265da4d461eb8ff#heading-3</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/38300827" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38300827</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/etcd/" rel="tag"><i class="fa fa-tag"></i> etcd</a>
+          
+            <a href="/tags/服务发现/" rel="tag"><i class="fa fa-tag"></i> 服务发现</a>
+          
+        </div>
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>🐶 您的支持将鼓励我继续创作 🐶</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赞赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-img.jpg" alt="不能吃的坚果 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-img.jpg" alt="不能吃的坚果 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+        
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+          <strong>本文作者：</strong>
+          <a href="/" title="欢迎访问 不能吃的坚果 的个人博客">不能吃的坚果</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文标题：</strong>
+          <a href="https://jian1098.github.io/2020/12/14/38.etcd学习笔记/" title="etcd学习笔记">etcd学习笔记</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="https://jian1098.github.io/2020/12/14/38.etcd学习笔记/" title="etcd学习笔记">https://jian1098.github.io/2020/12/14/38.etcd学习笔记/</a>
+        </li>
+
+        <li class="post-copyright-date">
+            <strong>发布时间：</strong>2020年12月14日 - 15时12分
+        </li>  
+
+        <li class="post-copyright-license">
+          <strong>版权声明： </strong>
+          本文由 不能吃的坚果 原创，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="license" target="_blank">保留署名-非商业性使用-禁止演绎 4.0-国际许可协议</a> </br>转载请保留以上声明信息！
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/14/36.ThinkPHP5和ThinkPHP6的区别/" rel="next" title="ThinkPHP5和ThinkPHP6的区别">
+                <i class="fa fa-chevron-left"></i> ThinkPHP5和ThinkPHP6的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/14/37.protobuf3基础语法/" rel="prev" title="protobuf3基础语法">
+                protobuf3基础语法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTE4OC8xNzczNg=="></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/header.jpg"
+               alt="不能吃的坚果" />
+          <p class="site-author-name" itemprop="name">不能吃的坚果</p>
+          <p class="site-description motion-element" itemprop="description">小坚的技术博客</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jian1098" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://blog.csdn.net/c_jian" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-rss"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liyuechun.org/#blog" title="黎跃春区块链博客" target="_blank">黎跃春区块链博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://studygolang.com/" title="Go语言中文网" target="_blank">Go语言中文网</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于etcd"><span class="nav-number">1.</span> <span class="nav-text">关于etcd</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">1.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群"><span class="nav-number">1.3.</span> <span class="nav-text">集群</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务发现"><span class="nav-number">1.4.</span> <span class="nav-text">服务发现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#核心组件"><span class="nav-number">1.5.</span> <span class="nav-text">核心组件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装etcd"><span class="nav-number">2.</span> <span class="nav-text">安装etcd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动etcd"><span class="nav-number">3.</span> <span class="nav-text">启动etcd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键值库操作"><span class="nav-number">4.</span> <span class="nav-text">键值库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#写（put）"><span class="nav-number">4.1.</span> <span class="nav-text">写（put）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读（get）"><span class="nav-number">4.2.</span> <span class="nav-text">读（get）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除（del）"><span class="nav-number">4.3.</span> <span class="nav-text">删除（del）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务（txn）"><span class="nav-number">4.4.</span> <span class="nav-text">事务（txn）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监听（watch）"><span class="nav-number">4.5.</span> <span class="nav-text">监听（watch）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#租约（lease）"><span class="nav-number">4.6.</span> <span class="nav-text">租约（lease）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式锁-lock"><span class="nav-number">4.7.</span> <span class="nav-text">分布式锁(lock)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选举-elect"><span class="nav-number">4.8.</span> <span class="nav-text">选举(elect)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群状态监控-endpoint"><span class="nav-number">4.9.</span> <span class="nav-text">集群状态监控(endpoint)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#快照-snapshot"><span class="nav-number">4.10.</span> <span class="nav-text">快照(snapshot)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群成员管理-Member"><span class="nav-number">4.11.</span> <span class="nav-text">集群成员管理(Member)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go语言操作etcd"><span class="nav-number">5.</span> <span class="nav-text">go语言操作etcd</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#连接"><span class="nav-number">5.1.</span> <span class="nav-text">连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读写"><span class="nav-number">5.2.</span> <span class="nav-text">读写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#op操作"><span class="nav-number">5.3.</span> <span class="nav-text">op操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#租约"><span class="nav-number">5.4.</span> <span class="nav-text">租约</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务"><span class="nav-number">5.5.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监控"><span class="nav-number">5.6.</span> <span class="nav-text">监控</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  By <span class="author" itemprop="copyrightHolder">不能吃的坚果</span>
+</div>
+
+<div class="theme-info">
+  <span class="post-count"># 博客全站共69.3k字</span>
+</div>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>

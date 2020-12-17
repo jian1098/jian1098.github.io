@@ -1,0 +1,1413 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RabbitMQ,消息队列中间件," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装 windows下载安装ErLang到https://www.erlang.org/downloads下载安装程序，一直">
+<meta name="keywords" content="RabbitMQ,消息队列中间件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ学习笔记">
+<meta property="og:url" content="https://jian1098.github.io/2020/12/14/41.RabbitMQ学习笔记/index.html">
+<meta property="og:site_name" content="小坚的技术博客">
+<meta property="og:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装 windows下载安装ErLang到https://www.erlang.org/downloads下载安装程序，一直">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.rabbitmq.com/img/tutorials/python-four.png">
+<meta property="og:image" content="http://www.rabbitmq.com/img/tutorials/python-five.png">
+<meta property="og:updated_time" content="2020-12-04T06:11:01.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMQ学习笔记">
+<meta name="twitter:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  安装 windows下载安装ErLang到https://www.erlang.org/downloads下载安装程序，一直">
+<meta name="twitter:image" content="http://www.rabbitmq.com/img/tutorials/python-four.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jian1098.github.io/2020/12/14/41.RabbitMQ学习笔记/"/>
+
+
+
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+  <title> RabbitMQ学习笔记 | 小坚的技术博客 </title>
+</head>
+
+  	 <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script>
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c5707bae1fdaba765939b699e7e23e32";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小坚的技术博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">小坚的技术博客</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://jian1098.github.io/2020/12/14/41.RabbitMQ学习笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="不能吃的坚果">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="小坚的技术博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="小坚的技术博客" src="/images/header.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                RabbitMQ学习笔记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-14T15:10:38+08:00">
+                2020-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RabbitMQ/" itemprop="url" rel="index">
+                    <span itemprop="name">RabbitMQ</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+             <span id="/2020/12/14/41.RabbitMQ学习笔记/" class="leancloud_visitors" data-flag-title="RabbitMQ学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,183
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+		  
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文作者：陈进坚<br>个人博客：<a href="https://jian1098.github.io">https://jian1098.github.io</a><br>CSDN博客：<a href="https://blog.csdn.net/c_jian" target="_blank" rel="noopener">https://blog.csdn.net/c_jian</a><br>简书：<a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" rel="noopener">https://www.jianshu.com/u/8ba9ac5706b6</a><br>联系方式：<a href="mailto:jian1098@qq.com" target="_blank" rel="noopener">jian1098@qq.com</a></p>
+</blockquote>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><hr>
+<h4 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h4><h5 id="下载安装ErLang"><a href="#下载安装ErLang" class="headerlink" title="下载安装ErLang"></a>下载安装<code>ErLang</code></h5><p>到<code>https://www.erlang.org/downloads</code>下载安装程序，一直按提示安装即可</p>
+<h5 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h5><p>1.在用变量新建变量名为<code>ERLANG_HOME</code>,变量值为<code>C:\Program Files\erl-23.1</code>的变量，变量值根据自己的安装路径填</p>
+<p>2.在<code>PATH</code>中添加<code>%ERLANG_HOME%\bin</code>，保存</p>
+<p>3.在cmd命令行中输入<code>erl</code>并回车，看到版本号说明<code>erlang</code>安装成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ erl</span><br><span class="line">Eshell V11.1  (abort with ^G)</span><br></pre></td></tr></table></figure>
+<h5 id="下载安装RabbitMQ"><a href="#下载安装RabbitMQ" class="headerlink" title="下载安装RabbitMQ"></a>下载安装<code>RabbitMQ</code></h5><p>到<code>https://www.rabbitmq.com/download.html</code>下载安装程序，一直按提示安装即可</p>
+<h5 id="安装RabbitMQ-Plugins"><a href="#安装RabbitMQ-Plugins" class="headerlink" title="安装RabbitMQ-Plugins"></a>安装<code>RabbitMQ-Plugins</code></h5><p>进入<code>RabbitMQ安装目录/sbin</code>目录下，打开cmd命令行输入下面命令并回车</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure>
+<p>然后再输入下面点命令并回车，会看到一堆信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl status</span><br></pre></td></tr></table></figure>
+<h5 id="启动RabbitMQ"><a href="#启动RabbitMQ" class="headerlink" title="启动RabbitMQ"></a>启动<code>RabbitMQ</code></h5><p>进入<code>RabbitMQ安装目录/sbin</code>目录下，双击<code>rabbitmq-server.bat</code>启动，然后在浏览器打开<code>http://localhost:15672</code>即可打开web管理界面，默认用户名和密码都是<code>guest</code>。在开始菜单也有<code>RabbitMQ Service - start</code>启动和<code>RabbitMQ Service - stop</code>结束快捷方式，RabbitMQ默认运行在本机的 <code>5672</code>端口。</p>
+<h4 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h4><p>略</p>
+<h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><hr>
+<h4 id="创建队列"><a href="#创建队列" class="headerlink" title="创建队列"></a>创建队列</h4><p>先创建连接，然后设置队列属性创建队列，golang代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">conn, err := amqp.Dial(<span class="string">"amqp://guest:guest@localhost:5672/"</span>)</span><br><span class="line">failOnError(err, <span class="string">"Failed to connect to RabbitMQ"</span>)</span><br><span class="line"><span class="keyword">defer</span> conn.Close()</span><br><span class="line"></span><br><span class="line">ch, err := conn.Channel()</span><br><span class="line">failOnError(err, <span class="string">"Failed to open a channel"</span>)</span><br><span class="line"><span class="keyword">defer</span> ch.Close()</span><br><span class="line"></span><br><span class="line">q, err := ch.QueueDeclare(</span><br><span class="line">	<span class="string">"hello"</span>, <span class="comment">// name</span></span><br><span class="line">	<span class="literal">false</span>,   <span class="comment">// durable	,RabbitMQ重启后数据会消失，要持久化必须开启这个参数</span></span><br><span class="line">	<span class="literal">false</span>,   <span class="comment">// delete when unused</span></span><br><span class="line">	<span class="literal">false</span>,   <span class="comment">// exclusive</span></span><br><span class="line">	<span class="literal">false</span>,   <span class="comment">// no-wait</span></span><br><span class="line">	<span class="literal">nil</span>,     <span class="comment">// arguments</span></span><br><span class="line">)</span><br><span class="line">failOnError(err, <span class="string">"Failed to declare a queue"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="生产消息"><a href="#生产消息" class="headerlink" title="生产消息"></a>生产消息</h4><p>定义字符数组，然后调用Publish()方法发布消息，需要设置消息的具体参数，其中<code>Body</code>为消息内容，golang代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">body := <span class="string">"Hello World!"</span></span><br><span class="line">err = ch.Publish(</span><br><span class="line">	<span class="string">""</span>,     <span class="comment">// exchange 交换机名称</span></span><br><span class="line">	q.Name, <span class="comment">// routing key</span></span><br><span class="line">	<span class="literal">false</span>,  <span class="comment">// mandatory</span></span><br><span class="line">	<span class="literal">false</span>,  <span class="comment">// immediate</span></span><br><span class="line">	amqp.Publishing &#123;</span><br><span class="line">		ContentType: <span class="string">"text/plain"</span>,</span><br><span class="line">		Body:        []<span class="keyword">byte</span>(body),</span><br><span class="line">	&#125;)</span><br><span class="line">failOnError(err, <span class="string">"Failed to publish a message"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="消费消息"><a href="#消费消息" class="headerlink" title="消费消息"></a>消费消息</h4><p>队列中的消息由消费者进行消费，同样需要设置消费参数然后调用Consume(）方法，golang代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">msgs, err := ch.Consume(</span><br><span class="line">	q.Name, <span class="comment">// queue</span></span><br><span class="line">	<span class="string">""</span>,     <span class="comment">// consumer</span></span><br><span class="line">	<span class="literal">true</span>,   <span class="comment">// auto-ack	自动确认消息，如果改为false，在下面逻辑业务结束后需要调用d.Ack(false)</span></span><br><span class="line">	<span class="literal">false</span>,  <span class="comment">// exclusive</span></span><br><span class="line">	<span class="literal">false</span>,  <span class="comment">// no-local</span></span><br><span class="line">	<span class="literal">false</span>,  <span class="comment">// no-wait</span></span><br><span class="line">	<span class="literal">nil</span>,    <span class="comment">// args</span></span><br><span class="line">)</span><br><span class="line">failOnError2(err, <span class="string">"Failed to register a consumer"</span>)</span><br></pre></td></tr></table></figure>
+<p>消息的遍历</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> d := <span class="keyword">range</span> msgs &#123;</span><br><span class="line">		log.Printf(<span class="string">"Received a message: %s"</span>, d.Body)</span><br><span class="line">		<span class="comment">//d.Ack(false)	//手动消息确认时需要调用</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<h3 id="消息确认"><a href="#消息确认" class="headerlink" title="消息确认"></a>消息确认</h3><hr>
+<p>当处理一个比较耗时得任务的时候，你也许想知道消费者（consumers）是否运行到一半就挂掉。当前的代码中，当消息被RabbitMQ发送给消费者（consumers）之后，马上就会在内存中移除。这种情况，你只要把一个工作者（worker）停止，正在处理的消息就会丢失。同时，所有发送到这个工作者的还没有处理的消息都会丢失。我们不想丢失任何任务消息。如果一个工作者（worker）挂掉了，我们希望任务会重新发送给其他的工作者（worker）。</p>
+<p>为了防止消息丢失，RabbitMQ提供了消息响应（acknowledgments）。消费者会通过一个ack（响应），告诉RabbitMQ已经收到并处理了某条消息，然后RabbitMQ就会释放并删除这条消息。</p>
+<p>如果消费者（consumer）挂掉了，没有发送响应，RabbitMQ就会认为消息没有被完全处理，然后重新发送给其他消费者（consumer）。这样，即使工作者（workers）偶尔的挂掉，也不会丢失消息。</p>
+<p>在golang代码中实现</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">msgs, err := ch.Consume(</span><br><span class="line">  q.Name, <span class="comment">// queue</span></span><br><span class="line">  <span class="string">""</span>,     <span class="comment">// consumer</span></span><br><span class="line">  <span class="literal">false</span>,  <span class="comment">// auto-ack	修改这个值</span></span><br><span class="line">  <span class="literal">false</span>,  <span class="comment">// exclusive</span></span><br><span class="line">  <span class="literal">false</span>,  <span class="comment">// no-local</span></span><br><span class="line">  <span class="literal">false</span>,  <span class="comment">// no-wait</span></span><br><span class="line">  <span class="literal">nil</span>,    <span class="comment">// args</span></span><br><span class="line">)</span><br><span class="line">failOnError(err, <span class="string">"Failed to register a consumer"</span>)</span><br><span class="line"></span><br><span class="line">forever := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">for</span> d := <span class="keyword">range</span> msgs &#123;</span><br><span class="line">    log.Printf(<span class="string">"Received a message: %s"</span>, d.Body)</span><br><span class="line">    dot_count := bytes.Count(d.Body, []<span class="keyword">byte</span>(<span class="string">"."</span>))</span><br><span class="line">    t := time.Duration(dot_count)</span><br><span class="line">    time.Sleep(t * time.Second)</span><br><span class="line">    log.Printf(<span class="string">"Done"</span>)</span><br><span class="line">    d.Ack(<span class="literal">false</span>)	<span class="comment">//手动确认</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>这里代码里将<code>auto-ack</code>设置为<code>false</code>，并且在业务结束后调用<code>d.Ack(false)</code>手动确认即可，工作者（worker）挂掉之后，重启RabbitMQ所有没有响应的消息都会重新发送。如果忘记确认RabbitMQ将会占用越来越多的内存，因为它无法释放任何未经消息的消息 为了排除这种错误，你可以使用<code>rabbitmqctl</code>命令，输出<code>messages_unacknowledged</code>字段：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmqctl list_queues name messages_ready messages_unacknowledged</span><br></pre></td></tr></table></figure>
+<p>Windows上执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl.bat list_queues name messages_ready messages_unacknowledged</span><br></pre></td></tr></table></figure>
+<h3 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h3><hr>
+<p>如果你没有特意告诉RabbitMQ，那么在它退出或者崩溃的时候，将会丢失所有队列和消息。为了确保信息不会丢失，有两个事情是需要注意的：我们必须把“队列”和“消息”设为持久化。</p>
+<h4 id="队列持久化"><a href="#队列持久化" class="headerlink" title="队列持久化"></a>队列持久化</h4><p>在golang代码中实现</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">q, err := ch.QueueDeclare(</span><br><span class="line">  <span class="string">"hello"</span>,      <span class="comment">// name</span></span><br><span class="line">  <span class="literal">true</span>,         <span class="comment">// durable	持久化设置</span></span><br><span class="line">  <span class="literal">false</span>,        <span class="comment">// delete when unused</span></span><br><span class="line">  <span class="literal">false</span>,        <span class="comment">// exclusive</span></span><br><span class="line">  <span class="literal">false</span>,        <span class="comment">// no-wait</span></span><br><span class="line">  <span class="literal">nil</span>,          <span class="comment">// arguments</span></span><br><span class="line">)</span><br><span class="line">failOnError(err, <span class="string">"Failed to declare a queue"</span>)</span><br></pre></td></tr></table></figure>
+<p>这里设置<code>durable</code>参数为<code>true</code>，此时，已经确保即使RabbitMQ重新启动，<code>task_queue</code>队列也不会丢失。如果已经存在一个名为”hello”的非持久化队列，重新改为持久化的话会报错，必须修改<code>name</code>或者清空队列。</p>
+<h4 id="消息持久化"><a href="#消息持久化" class="headerlink" title="消息持久化"></a>消息持久化</h4><p>在golang代码中实现</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">err = ch.Publish(</span><br><span class="line">  <span class="string">""</span>,           <span class="comment">// exchange</span></span><br><span class="line">  q.Name,       <span class="comment">// routing key</span></span><br><span class="line">  <span class="literal">false</span>,        <span class="comment">// mandatory</span></span><br><span class="line">  <span class="literal">false</span>,</span><br><span class="line">  amqp.Publishing &#123;</span><br><span class="line">    DeliveryMode: amqp.Persistent,</span><br><span class="line">    ContentType:  <span class="string">"text/plain"</span>,</span><br><span class="line">    Body:         []<span class="keyword">byte</span>(body),</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>通过设置<code>amqp.Publishing</code>的<code>amqp.Persistent</code>属性即可。</p>
+<p>注意：将消息设为持久化并不能完全保证不会丢失。以上代码只是告诉了RabbitMq要把消息存到硬盘，但从RabbitMq收到消息到保存之间还是有一个很小的间隔时间。因为RabbitMq并不是所有的消息都使用fsync(2)——它有可能只是保存到缓存中，并不一定会写到硬盘中。并不能保证真正的持久化，但已经足够应付我们的简单工作队列。如果您需要更强的保证，那么您可以使用使用后面的发布订阅功能。</p>
+<h3 id="公平调度"><a href="#公平调度" class="headerlink" title="公平调度"></a>公平调度</h3><hr>
+<p>如果有多个消费者，并且有的消费者处理消息比较繁忙，有的处理消息比较轻松，可以设置计数器，让RabbitMQ一次只向一个worker发送一条消息。换句话说，在处理并确认前一个消息之前，不要向正在工作人员发送新消息。</p>
+<p>在golang代码中实现</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">err = ch.Qos(</span><br><span class="line">  <span class="number">1</span>,     <span class="comment">// prefetch count</span></span><br><span class="line">  <span class="number">0</span>,     <span class="comment">// prefetch size</span></span><br><span class="line">  <span class="literal">false</span>, <span class="comment">// global</span></span><br><span class="line">)</span><br><span class="line">failOnError(err, <span class="string">"Failed to set QoS"</span>)</span><br></pre></td></tr></table></figure>
+<p>这里置预取计数值为1即可。</p>
+<h3 id="订阅发布"><a href="#订阅发布" class="headerlink" title="订阅发布"></a>订阅发布</h3><hr>
+<h4 id="创建交换机"><a href="#创建交换机" class="headerlink" title="创建交换机"></a>创建交换机</h4><p>发布者（producer）不会直接发送任何消息给队列，只需要把消息发送给一个交换机（exchange）。交换机非常简单，它一边从发布者方接收消息，一边把消息推送到队列。交换机必须知道如何处理它接收到的消息，是应该推送到指定的队列还是是多个队列，或者是直接忽略消息。这些规则是通过交换机类型（exchange type）来定义的。有几个可供选择的交换机类型：<code>direct</code>, <code>topic</code>, <code>headers</code>和<code>fanout</code>。</p>
+<p>显示交换机列表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmqctl list_exchanges</span><br></pre></td></tr></table></figure>
+<p>在golang代码中创建交换机</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">err = ch.ExchangeDeclare(</span><br><span class="line">  <span class="string">"logs"</span>,   <span class="comment">// name</span></span><br><span class="line">  <span class="string">"fanout"</span>, <span class="comment">// type</span></span><br><span class="line">  <span class="literal">true</span>,     <span class="comment">// durable</span></span><br><span class="line">  <span class="literal">false</span>,    <span class="comment">// auto-deleted</span></span><br><span class="line">  <span class="literal">false</span>,    <span class="comment">// internal</span></span><br><span class="line">  <span class="literal">false</span>,    <span class="comment">// no-wait</span></span><br><span class="line">  <span class="literal">nil</span>,      <span class="comment">// arguments</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><code>name</code>为交换机名称，<code>type</code>为交换机类型。前面的教程中我们对交换机一无所知，但仍然能够发送消息到队列中。因为我们使用了命名为空字符串(“”)的匿名交换机。如果要发送消息到指定队列中，在调用Publish()生产消息时指定<code>exchange</code>字段即可，不过该指定的交换机必须是创建好的。</p>
+<h4 id="绑定交换机"><a href="#绑定交换机" class="headerlink" title="绑定交换机"></a>绑定交换机</h4><p>我们已经创建了一个<code>fanout</code>交换机和一个队列。现在我们需要告诉交换机如何发送消息给我们的队列。交换机和队列之间的联系我们称之为绑定（binding）。golang代码实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">err = ch.QueueBind(</span><br><span class="line">  q.Name, <span class="comment">// queue name	队列名</span></span><br><span class="line">  <span class="string">""</span>,     <span class="comment">// routing key</span></span><br><span class="line">  <span class="string">"logs"</span>, <span class="comment">// exchange	交换机名</span></span><br><span class="line">  <span class="literal">false</span>,</span><br><span class="line">  <span class="literal">nil</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>绑定好交易机之后生产者将消息存放在指定队列，在调用Consume()方法消费时只要指定<code>queue</code>队列名就能获取指定队列消息。</p>
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><hr>
+<p>在上面绑定交换机的设置中可以看到有一个参数<code>routing key</code>是空的，这个参数就是路由</p>
+<h4 id="绑定路由"><a href="#绑定路由" class="headerlink" title="绑定路由"></a>绑定路由</h4><p>绑定（binding）是指交换机（exchange）和队列（queue）的关系。可以简单理解为：这个队列（queue）对这个交换机（exchange）的消息感兴趣。绑定的时候可以带上一个额外的<code>routing_key</code>参数。为了避免与<code>Channel.Publish</code>的参数混淆，我们把它叫做绑定键<code>binding key</code>。绑定键的意义取决于交换机（exchange）的类型。我们之前使用过<code>fanout</code> 交换机会忽略这个值，使用<code>direct</code> 交换机来代替这个值会生效。</p>
+<p>每个队列可以有多个绑定键，每个交换机可以设置相同的或多个绑定键到各个队列中。原理如下图</p>
+<p><img src="http://www.rabbitmq.com/img/tutorials/python-four.png" alt=""></p>
+<p>其中P为生产者，X为交换机，amqp为队列，C为消费者</p>
+<h4 id="订阅路由"><a href="#订阅路由" class="headerlink" title="订阅路由"></a>订阅路由</h4><p>绑定好路由之后就可以订阅指定路由的队列，在消费队列的队列绑定QueueBind(）方法中指定<code>routing key</code>的名称即可，golang代码实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, s := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">                log.Printf(<span class="string">"Binding queue %s to exchange %s with routing key %s"</span>,</span><br><span class="line">                        q.Name, <span class="string">"logs_direct"</span>, s)</span><br><span class="line">                err = ch.QueueBind(</span><br><span class="line">                        q.Name,        <span class="comment">// queue name</span></span><br><span class="line">                        s,             <span class="comment">// routing key	指定路由名称</span></span><br><span class="line">                        <span class="string">"logs_direct"</span>, <span class="comment">// exchange</span></span><br><span class="line">                        <span class="literal">false</span>,</span><br><span class="line">                        <span class="literal">nil</span>)</span><br><span class="line">                failOnError(err, <span class="string">"Failed to bind a queue"</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        msgs, err := ch.Consume(</span><br><span class="line">                q.Name, <span class="comment">// queue</span></span><br><span class="line">                <span class="string">""</span>,     <span class="comment">// consumer</span></span><br><span class="line">                <span class="literal">true</span>,   <span class="comment">// auto ack</span></span><br><span class="line">                <span class="literal">false</span>,  <span class="comment">// exclusive</span></span><br><span class="line">                <span class="literal">false</span>,  <span class="comment">// no local</span></span><br><span class="line">                <span class="literal">false</span>,  <span class="comment">// no wait</span></span><br><span class="line">                <span class="literal">nil</span>,    <span class="comment">// args</span></span><br><span class="line">        )</span><br><span class="line">        failOnError(err, <span class="string">"Failed to register a consumer"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="主题交换机"><a href="#主题交换机" class="headerlink" title="主题交换机"></a>主题交换机</h3><p>发送到<code>topic</code>交换机的消息不可以携带随意<code>routing_key</code>，它的routing_key必须是一个由<code>.</code>分隔开的词语列表。这些单词随便是什么都可以，但是最好是跟携带它们的消息有关系的词汇。</p>
+<p><code>topic</code>交换机背后的逻辑跟<code>direct</code>交换机很相似 —— 一个携带着特定routing_key的消息会被topic交换机投递给绑定键与之想匹配的队列。但是它的binding key和routing_key有两个特殊应用方式：</p>
+<ul>
+<li><code>*</code> (星号) 用来表示一个单词.</li>
+<li><code>#</code> (井号) 用来表示任意数量（零个或多个）单词。</li>
+</ul>
+<p>下边用图说明：<br><img src="http://www.rabbitmq.com/img/tutorials/python-five.png" alt="None"></p>
+<p>这个例子里，我们发送的所有消息都是用来描述小动物的。发送的消息所携带的路由键是由三个单词所组成的，这三个单词被两个<code>.</code>分割开。路由键里的第一个单词描述的是动物的手脚的利索程度，第二个单词是动物的颜色，第三个是动物的种类。所以它看起来是这样的： <code>&lt;celerity&gt;.&lt;colour&gt;.&lt;species&gt;</code>。</p>
+<p>我们创建了三个绑定：Q1的绑定键为 <code>*.orange.*</code>，Q2的绑定键为 <code>*.*.rabbit</code> 和 <code>lazy.#</code> 。</p>
+<p>这三个绑定键被可以总结为：</p>
+<ul>
+<li>Q1 对<em>所有的桔黄色动物</em>都感兴趣。</li>
+<li>Q2 则是对<em>所有的兔子</em>和<em>所有懒惰的动物</em>感兴趣。</li>
+</ul>
+<p>一个携带有 <code>quick.orange.rabbit</code> 的消息将会被分别投递给这两个队列。携带着 <code>lazy.orange.elephant</code> 的消息同样也会给两个队列都投递过去。另一方面携带有 <code>quick.orange.fox</code> 的消息会投递给第一个队列，携带有 <code>lazy.brown.fox</code> 的消息会投递给第二个队列。携带有 <code>lazy.pink.rabbit</code> 的消息只会被投递给第二个队列一次，即使它同时匹配第二个队列的两个绑定。携带着 <code>quick.brown.fox</code> 的消息不会投递给任何一个队列。</p>
+<p>如果我们违反约定，发送了一个携带有一个单词或者四个单词（<code>&quot;orange&quot;</code> or <code>&quot;quick.orange.male.rabbit&quot;</code>）的消息时，发送的消息不会投递给任何一个队列，而且会丢失掉。</p>
+<p>但是另一方面，即使 <code>&quot;lazy.orange.male.rabbit&quot;</code> 有四个单词，他还是会匹配最后一个绑定，并且被投递到第二个队列中。</p>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://rabbitmq.mr-ping.com/tutorials_with_golang" target="_blank" rel="noopener">http://rabbitmq.mr-ping.com/tutorials_with_golang</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/RabbitMQ/" rel="tag"><i class="fa fa-tag"></i> RabbitMQ</a>
+          
+            <a href="/tags/消息队列中间件/" rel="tag"><i class="fa fa-tag"></i> 消息队列中间件</a>
+          
+        </div>
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>🐶 您的支持将鼓励我继续创作 🐶</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赞赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-img.jpg" alt="不能吃的坚果 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-img.jpg" alt="不能吃的坚果 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+        
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+          <strong>本文作者：</strong>
+          <a href="/" title="欢迎访问 不能吃的坚果 的个人博客">不能吃的坚果</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文标题：</strong>
+          <a href="https://jian1098.github.io/2020/12/14/41.RabbitMQ学习笔记/" title="RabbitMQ学习笔记">RabbitMQ学习笔记</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="https://jian1098.github.io/2020/12/14/41.RabbitMQ学习笔记/" title="RabbitMQ学习笔记">https://jian1098.github.io/2020/12/14/41.RabbitMQ学习笔记/</a>
+        </li>
+
+        <li class="post-copyright-date">
+            <strong>发布时间：</strong>2020年12月14日 - 15时12分
+        </li>  
+
+        <li class="post-copyright-license">
+          <strong>版权声明： </strong>
+          本文由 不能吃的坚果 原创，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="license" target="_blank">保留署名-非商业性使用-禁止演绎 4.0-国际许可协议</a> </br>转载请保留以上声明信息！
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/14/4.Golang时间与时间戳的获取和转换/" rel="next" title="Golang时间与时间戳的获取和转换">
+                <i class="fa fa-chevron-left"></i> Golang时间与时间戳的获取和转换
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/14/40.ElasticSearch学习笔记/" rel="prev" title="ElasticSearch学习笔记">
+                ElasticSearch学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTE4OC8xNzczNg=="></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/header.jpg"
+               alt="不能吃的坚果" />
+          <p class="site-author-name" itemprop="name">不能吃的坚果</p>
+          <p class="site-description motion-element" itemprop="description">小坚的技术博客</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jian1098" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://blog.csdn.net/c_jian" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-rss"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liyuechun.org/#blog" title="黎跃春区块链博客" target="_blank">黎跃春区块链博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://studygolang.com/" title="Go语言中文网" target="_blank">Go语言中文网</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#windows"><span class="nav-number">1.1.</span> <span class="nav-text">windows</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#下载安装ErLang"><span class="nav-number">1.1.1.</span> <span class="nav-text">下载安装ErLang</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置环境变量"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下载安装RabbitMQ"><span class="nav-number">1.1.3.</span> <span class="nav-text">下载安装RabbitMQ</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安装RabbitMQ-Plugins"><span class="nav-number">1.1.4.</span> <span class="nav-text">安装RabbitMQ-Plugins</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#启动RabbitMQ"><span class="nav-number">1.1.5.</span> <span class="nav-text">启动RabbitMQ</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux"><span class="nav-number">1.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列"><span class="nav-number">2.</span> <span class="nav-text">消息队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建队列"><span class="nav-number">2.1.</span> <span class="nav-text">创建队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生产消息"><span class="nav-number">2.2.</span> <span class="nav-text">生产消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费消息"><span class="nav-number">2.3.</span> <span class="nav-text">消费消息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息确认"><span class="nav-number">3.</span> <span class="nav-text">消息确认</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据持久化"><span class="nav-number">4.</span> <span class="nav-text">数据持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#队列持久化"><span class="nav-number">4.1.</span> <span class="nav-text">队列持久化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息持久化"><span class="nav-number">4.2.</span> <span class="nav-text">消息持久化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公平调度"><span class="nav-number">5.</span> <span class="nav-text">公平调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#订阅发布"><span class="nav-number">6.</span> <span class="nav-text">订阅发布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建交换机"><span class="nav-number">6.1.</span> <span class="nav-text">创建交换机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绑定交换机"><span class="nav-number">6.2.</span> <span class="nav-text">绑定交换机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由"><span class="nav-number">7.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绑定路由"><span class="nav-number">7.1.</span> <span class="nav-text">绑定路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#订阅路由"><span class="nav-number">7.2.</span> <span class="nav-text">订阅路由</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主题交换机"><span class="nav-number">8.</span> <span class="nav-text">主题交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文档"><span class="nav-number">9.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  By <span class="author" itemprop="copyrightHolder">不能吃的坚果</span>
+</div>
+
+<div class="theme-info">
+  <span class="post-count"># 博客全站共69.3k字</span>
+</div>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>

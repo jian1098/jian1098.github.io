@@ -1,0 +1,1395 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="比特币,常用命令," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian联系方式：jian1098@qq.com  关于比特币节点的搭建请看我之前发布的文章，包括测试网络和私有网络的搭建，这里列出在命令行下的常用操作命令。 指定配置文件1bitcoin-cli -conf=/root/.bitcoin/bitcoin.c">
+<meta name="keywords" content="比特币,常用命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比特币常用命令">
+<meta property="og:url" content="https://jian1098.github.io/2020/12/14/21.比特币常用命令/index.html">
+<meta property="og:site_name" content="小坚的技术博客">
+<meta property="og:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian联系方式：jian1098@qq.com  关于比特币节点的搭建请看我之前发布的文章，包括测试网络和私有网络的搭建，这里列出在命令行下的常用操作命令。 指定配置文件1bitcoin-cli -conf=/root/.bitcoin/bitcoin.c">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-04T02:34:06.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="比特币常用命令">
+<meta name="twitter:description" content="本文作者：陈进坚博客地址：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian联系方式：jian1098@qq.com  关于比特币节点的搭建请看我之前发布的文章，包括测试网络和私有网络的搭建，这里列出在命令行下的常用操作命令。 指定配置文件1bitcoin-cli -conf=/root/.bitcoin/bitcoin.c">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jian1098.github.io/2020/12/14/21.比特币常用命令/"/>
+
+
+
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+  <title> 比特币常用命令 | 小坚的技术博客 </title>
+</head>
+
+  	 <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script>
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c5707bae1fdaba765939b699e7e23e32";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小坚的技术博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">小坚的技术博客</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://jian1098.github.io/2020/12/14/21.比特币常用命令/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="不能吃的坚果">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="小坚的技术博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="小坚的技术博客" src="/images/header.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                比特币常用命令
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-14T15:10:38+08:00">
+                2020-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/比特币/" itemprop="url" rel="index">
+                    <span itemprop="name">比特币</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+             <span id="/2020/12/14/21.比特币常用命令/" class="leancloud_visitors" data-flag-title="比特币常用命令">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,421
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+		  
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文作者：陈进坚<br>博客地址：<a href="https://jian1098.github.io">https://jian1098.github.io</a><br>CSDN博客：<a href="https://blog.csdn.net/c_jian" target="_blank" rel="noopener">https://blog.csdn.net/c_jian</a><br>联系方式：<a href="mailto:jian1098@qq.com" target="_blank" rel="noopener">jian1098@qq.com</a></p>
+</blockquote>
+<p>关于比特币节点的搭建请看我之前发布的文章，包括测试网络和私有网络的搭建，这里列出在命令行下的常用操作命令。</p>
+<h3 id="指定配置文件"><a href="#指定配置文件" class="headerlink" title="指定配置文件"></a>指定配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli -conf=/root/.bitcoin/bitcoin.conf rpc命令</span><br></pre></td></tr></table></figure>
+<h3 id="钱包相关命令"><a href="#钱包相关命令" class="headerlink" title="钱包相关命令"></a>钱包相关命令</h3><h4 id="查看钱包信息"><a href="#查看钱包信息" class="headerlink" title="查看钱包信息"></a>查看钱包信息</h4><p>该命令可以获取到钱包版本、余额、交易数量等信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli getwalletinfo</span><br></pre></td></tr></table></figure>
+<h4 id="获取所有钱包地址及其账号名"><a href="#获取所有钱包地址及其账号名" class="headerlink" title="获取所有钱包地址及其账号名"></a>获取所有钱包地址及其账号名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli listreceivedbyaddress 1 true</span><br></pre></td></tr></table></figure>
+<h4 id="查询余额"><a href="#查询余额" class="headerlink" title="查询余额"></a>查询余额</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli getbalance</span><br></pre></td></tr></table></figure>
+<p>注意：查询得到的余额是所有钱包地址的可用余额总和，并且不包含私钥不在节点的钱包地址余额。</p>
+<h4 id="生成钱包地址"><a href="#生成钱包地址" class="headerlink" title="生成钱包地址"></a>生成钱包地址</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli getnewaddress &quot;test&quot;  #&quot;test&quot;是输入的账号</span><br></pre></td></tr></table></figure>
+<h4 id="查询地址收到币的数量"><a href="#查询地址收到币的数量" class="headerlink" title="查询地址收到币的数量"></a>查询地址收到币的数量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli getreceivedbyaddress 2MtmeZ7W17zJzigtRhzKMP6MSc2DSyL5LYU</span><br></pre></td></tr></table></figure>
+<h4 id="查询默认钱包地址"><a href="#查询默认钱包地址" class="headerlink" title="查询默认钱包地址"></a>查询默认钱包地址</h4><p>该命令在0.18版本被废弃，并且需要在启动节点时带上 <code>-deprecatedrpc=accounts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli getaccountaddress &quot;&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="加密钱包"><a href="#加密钱包" class="headerlink" title="加密钱包"></a>加密钱包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli encryptwallet mypassword</span><br></pre></td></tr></table></figure>
+<h4 id="解锁钱包"><a href="#解锁钱包" class="headerlink" title="解锁钱包"></a>解锁钱包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli walletpassphrase mypassword 30</span><br></pre></td></tr></table></figure>
+<p>30表示解锁时间，单位秒</p>
+<h4 id="锁定钱包"><a href="#锁定钱包" class="headerlink" title="锁定钱包"></a>锁定钱包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli walletlock</span><br></pre></td></tr></table></figure>
+<h4 id="备份钱包文件"><a href="#备份钱包文件" class="headerlink" title="备份钱包文件"></a>备份钱包文件</h4><p>需要先解锁，可以将钱包文件<code>wallet.data</code>安全地拷贝到指定文件或目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli backupwallet wallet.back</span><br></pre></td></tr></table></figure>
+<p><code>wallet.back</code>是备份文件名</p>
+<h4 id="导入备份文件"><a href="#导入备份文件" class="headerlink" title="导入备份文件"></a>导入备份文件</h4><p>需要先解锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli importwallet wallet.back</span><br></pre></td></tr></table></figure>
+<h4 id="修改钱包密码"><a href="#修改钱包密码" class="headerlink" title="修改钱包密码"></a>修改钱包密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli walletpassphrasechange mypassword 123456</span><br></pre></td></tr></table></figure>
+<p>mypassword 和 123456分别是旧和新密码</p>
+<h4 id="导出所有钱包地址和私钥"><a href="#导出所有钱包地址和私钥" class="headerlink" title="导出所有钱包地址和私钥"></a>导出所有钱包地址和私钥</h4><p>需要先解锁，将钱包里的所有密钥导出到指定的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli dumpwallet wallet.txt</span><br></pre></td></tr></table></figure>
+<h4 id="导入钱包和私钥"><a href="#导入钱包和私钥" class="headerlink" title="导入钱包和私钥"></a>导入钱包和私钥</h4><p>需要先解锁，将上一步的文件导入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli importwallet wallet.txt</span><br></pre></td></tr></table></figure>
+<h4 id="导出指定钱包地址的私钥"><a href="#导出指定钱包地址的私钥" class="headerlink" title="导出指定钱包地址的私钥"></a>导出指定钱包地址的私钥</h4><p>需要先解锁，结果为字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli dumpprivkey mzqrRSB8LXa8EAwzFE5mLyoGWP66H7X26H</span><br></pre></td></tr></table></figure>
+<h4 id="导入指定钱包私钥"><a href="#导入指定钱包私钥" class="headerlink" title="导入指定钱包私钥"></a>导入指定钱包私钥</h4><p>将上一步的私钥导入,但是导入的参数是该钱包的账号名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli importprivkey 92dC2MM4dN4ei6qGarVkL48aiUcPjg2uvPdzpFY6QVjBAPQPGWy &quot;test&quot; true</span><br></pre></td></tr></table></figure>
+<h4 id="获取指定钱包地址的账号名"><a href="#获取指定钱包地址的账号名" class="headerlink" title="获取指定钱包地址的账号名"></a>获取指定钱包地址的账号名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli getaccount 2N5UhqzPfTz1rTG3ALkEMsEN6qNvqXcoZJ2</span><br></pre></td></tr></table></figure>
+<p>更多命令请参考<code>https://bitcoin-rpc.github.io/en/doc/0.17.99/rpc/wallet/importwallet/</code> 或中文版<code>http://cw.hubwiz.com/card/c/bitcoin-json-rpc-api/1/7/8/</code></p>
+<h4 id="导入钱包地址及账号名"><a href="#导入钱包地址及账号名" class="headerlink" title="导入钱包地址及账号名"></a>导入钱包地址及账号名</h4><p>参数为地址或公钥、账号名、是否扫描整个区块链（需要时间长），因为不包含私钥，所以该地址只能用于监听而不能用于消费交易</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli importaddress muhtvdmsnbQEPFuEmxcChX58fGvXaaUoVt &quot;watch-only test&quot; false</span><br></pre></td></tr></table></figure>
+<h4 id="导入公钥"><a href="#导入公钥" class="headerlink" title="导入公钥"></a>导入公钥</h4><p>参数分别是公钥、钱包账号名、是否重新扫描区块（需要时间）,导入公钥后节点会同时导入对应的钱包地址，但没有对应的私钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli importpubkey &quot;04aefb3a2b6e0eef583216283b72279cdc1f79a0b99499a0ac9769598278a581ed7734f6b203fcd75fc4836296a4f662dea768671feea454d19b5abdc7a113b081&quot; &quot;transfer test&quot; false</span><br></pre></td></tr></table></figure>
+<h4 id="列出所有钱包地址对应的账号名及余额"><a href="#列出所有钱包地址对应的账号名及余额" class="headerlink" title="列出所有钱包地址对应的账号名及余额"></a>列出所有钱包地址对应的账号名及余额</h4><p>只含本节点生成的钱包地址或导入公钥或私钥的钱包地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli listaddressgroupings</span><br></pre></td></tr></table></figure>
+<p>老版本的bitcoind请使用命令，0.18版本已废弃</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli listaccounts</span><br></pre></td></tr></table></figure>
+<h3 id="交易相关命令"><a href="#交易相关命令" class="headerlink" title="交易相关命令"></a>交易相关命令</h3><h4 id="从默认账户给目标地址转账"><a href="#从默认账户给目标地址转账" class="headerlink" title="从默认账户给目标地址转账"></a>从默认账户给目标地址转账</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli sendtoaddress &quot;mxHFNt2RXkshzT3CuXb5Dx215BdeNDQRCu&quot; 10</span><br></pre></td></tr></table></figure>
+<h4 id="从指定账户转账"><a href="#从指定账户转账" class="headerlink" title="从指定账户转账"></a>从指定账户转账</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli sendfrom &quot;test&quot; &quot;n3BMgZMA26TcHnVa5iNJeB3PMqkF3cEWBE&quot; 0.01</span><br></pre></td></tr></table></figure>
+<p>注意：需要生成区块才能确认交易并到账</p>
+<h4 id="生成区块"><a href="#生成区块" class="headerlink" title="生成区块"></a>生成区块</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli generate 1</span><br></pre></td></tr></table></figure>
+<p>注意：实践证明只有区块数量超过100的时候才会产生余额</p>
+<h4 id="获取交易列表"><a href="#获取交易列表" class="headerlink" title="获取交易列表"></a>获取交易列表</h4><p>参数依次为钱包账户名（*表示所有）、要提取的交易数量，默认值：10、要跳过的交易数量，默认值：0、是否包含watch-only地址，默认值：false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli listtransactions &quot;*&quot; 1 0 true</span><br></pre></td></tr></table></figure>
+<p>注意：这个命令只会列出本节点并且私钥在节点的钱包地址交易列表，并且<code>bitcoin.conf</code>文件必须加上<code>txindex=1</code></p>
+<h4 id="根据交易id查询交易详情"><a href="#根据交易id查询交易详情" class="headerlink" title="根据交易id查询交易详情"></a>根据交易id查询交易详情</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli gettransaction 47b30a7c5b1cd10183e60676fc0f4a059b96c2f10f16a2828aeb6270f4467500</span><br></pre></td></tr></table></figure>
+<p>注意：这个命令只能查到本地节点的钱包地址交易，查询节点外的交易会报<code>Invalid or non-wallet transaction id</code>,而且如果钱包地址的私钥不在节点的话查询出来的数据中<code>details</code>字段是空的，也就是无法查询到该交易的输入输出数据。</p>
+<h4 id="查询未花费的交易"><a href="#查询未花费的交易" class="headerlink" title="查询未花费的交易"></a>查询未花费的交易</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli listunspent</span><br></pre></td></tr></table></figure>
+<p>或者指定钱包地址和确认的区块数量范围,命令：<code>listunspent [minconf=1] [maxconf=9999999] [&quot;address&quot;,...]</code> <code>minconf</code>/<code>maxconf</code>表示该笔收入交易的确认数范围，如果需要列出还未确认的交易，需将<code>minconf</code>设置为0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli listunspent 0 99999999 &apos;[&quot;mi7efAUg86n8LZAFD4hdMTfoKYkj8YYbdA&quot;]&apos;</span><br></pre></td></tr></table></figure>
+<p>注意：使用此命令只能得到已经导入公钥或钱包地址到节点的列表，并且<code>bitcoin.conf</code>文件必须加上<code>txindex=1</code>，如果导入钱包地址前已经有交易，可以在导入公钥或地址时设置重新扫描区块为<code>true</code></p>
+<h4 id="生成未签名交易"><a href="#生成未签名交易" class="headerlink" title="生成未签名交易"></a>生成未签名交易</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli createrawtransaction &apos;[&#123;&quot;txid&quot;:&quot;7fff82f7b28bc12b349e6e4c7482d563e7af6119ca49126bfc04435ce909abbc&quot;,&quot;vout&quot;:0&#125;]&apos; &apos;&#123;&quot;2MuJfZRJi7S7nqaxHrbTRMSTb6GygDD4SFz&quot;:1&#125;&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="指定找零地址及增加交易输入"><a href="#指定找零地址及增加交易输入" class="headerlink" title="指定找零地址及增加交易输入"></a>指定找零地址及增加交易输入</h4><p>找零地址<code>changeAddress</code>可以是发起交易的钱包地址本身，交易成功后未花费交易的<code>txid</code>会更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli fundrawtransaction 020000000161dc79011198f3e042f68b6e8a1ae16d9cdab96ada6c8b5a9905adb54c6e92430000000000ffffffff0100e1f5050000000017a9141696d866051fb5ff771acc87f47fb1d4c6bb26778700000000 &apos;&#123;&quot;changeAddress&quot;: &quot;2MuJfZRJi7S7nqaxHrbTRMSTb6GygDD4SFz&quot;,&quot;changePosition&quot; : 1,&quot;includeWatching&quot; : true,&quot;lockUnspents&quot; : true&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>注意：使用此命令时，转出钱包地址必须将公钥或私钥导入节点服务器，否则会失败。</p>
+<h4 id="交易签名"><a href="#交易签名" class="headerlink" title="交易签名"></a>交易签名</h4><p>最后的参数是私钥数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli signrawtransactionwithkey 020000000161dc79011198f3e042f68b6e8a1ae16d9cdab96ada6c8b5a9905adb54c6e92430000000000ffffffff0200e1f5050000000017a9141696d866051fb5ff771acc87f47fb1d4c6bb26778728d5a4350000000017a9141696d866051fb5ff771acc87f47fb1d4c6bb26778700000000 &apos;[&quot;92oH6gkrUHwmts4jNgv71x87RsYe8hnFKJmGDAzg3FQBisKfTo1&quot;]&apos;</span><br></pre></td></tr></table></figure>
+<p>旧版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli signrawtransaction 0200000001c7ca59373068bba271bcaeabc8648e400188706178082007f263b310afc712f90000000000ffffffff0100fcac060000000017a91439119c8025990e01c0cd9fdfaf4d5aab603ffcd78700000000</span><br></pre></td></tr></table></figure>
+<h4 id="发送交易"><a href="#发送交易" class="headerlink" title="发送交易"></a>发送交易</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli sendrawtransaction 020000000161dc79011198f3e042f68b6e8a1ae16d9cdab96ada6c8b5a9905adb54c6e9243000000008a47304402201f60fa7cfc8a03cd2be9da0a4c78b00d9e3663748db173c3b778f7946b871e0c022021836426e0800125fe98d9fc8a44fe79a1b775d7e9ea723ee35f21881fb5d385014104ee9fa9f58e21a6d82565cb11391c4673831ae19319b01637ddd7f14fafbcf776608e63e6f0ba39663fd3060ad73d655e31da919e71c7574293b7b2bad1173885ffffffff02c062002d0000000017a9141696d866051fb5ff771acc87f47fb1d4c6bb26778740539a0e000000001976a914b7e29340f24ac2d7b8ac576fab843248298a65dd88ac00000000</span><br></pre></td></tr></table></figure>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="命令列表"><a href="#命令列表" class="headerlink" title="命令列表"></a>命令列表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli help</span><br></pre></td></tr></table></figure>
+<p>参考文章：</p>
+<p><a href="http://cw.hubwiz.com/card/c/bitcoin-json-rpc-api/1/7/23/" target="_blank" rel="noopener">http://cw.hubwiz.com/card/c/bitcoin-json-rpc-api/1/7/23/</a></p>
+<p><a href="https://bitcoin-rpc.github.io/en/doc/0.17.99/rpc/blockchain/getblock/" target="_blank" rel="noopener">https://bitcoin-rpc.github.io/en/doc/0.17.99/rpc/blockchain/getblock/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/比特币/" rel="tag"><i class="fa fa-tag"></i> 比特币</a>
+          
+            <a href="/tags/常用命令/" rel="tag"><i class="fa fa-tag"></i> 常用命令</a>
+          
+        </div>
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>🐶 您的支持将鼓励我继续创作 🐶</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赞赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-img.jpg" alt="不能吃的坚果 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-img.jpg" alt="不能吃的坚果 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+        
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+          <strong>本文作者：</strong>
+          <a href="/" title="欢迎访问 不能吃的坚果 的个人博客">不能吃的坚果</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文标题：</strong>
+          <a href="https://jian1098.github.io/2020/12/14/21.比特币常用命令/" title="比特币常用命令">比特币常用命令</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="https://jian1098.github.io/2020/12/14/21.比特币常用命令/" title="比特币常用命令">https://jian1098.github.io/2020/12/14/21.比特币常用命令/</a>
+        </li>
+
+        <li class="post-copyright-date">
+            <strong>发布时间：</strong>2020年12月14日 - 15时12分
+        </li>  
+
+        <li class="post-copyright-license">
+          <strong>版权声明： </strong>
+          本文由 不能吃的坚果 原创，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="license" target="_blank">保留署名-非商业性使用-禁止演绎 4.0-国际许可协议</a> </br>转载请保留以上声明信息！
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/14/2.使用Google reCAPTCHA防止机器注册登录/" rel="next" title="使用Google reCAPTCHA防止机器注册">
+                <i class="fa fa-chevron-left"></i> 使用Google reCAPTCHA防止机器注册
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/14/22.Ubuntu莱特币私有链搭建/" rel="prev" title="Ubuntu莱特币私有链搭建">
+                Ubuntu莱特币私有链搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTE4OC8xNzczNg=="></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/header.jpg"
+               alt="不能吃的坚果" />
+          <p class="site-author-name" itemprop="name">不能吃的坚果</p>
+          <p class="site-description motion-element" itemprop="description">小坚的技术博客</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jian1098" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://blog.csdn.net/c_jian" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-rss"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liyuechun.org/#blog" title="黎跃春区块链博客" target="_blank">黎跃春区块链博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://studygolang.com/" title="Go语言中文网" target="_blank">Go语言中文网</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#指定配置文件"><span class="nav-number">1.</span> <span class="nav-text">指定配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#钱包相关命令"><span class="nav-number">2.</span> <span class="nav-text">钱包相关命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看钱包信息"><span class="nav-number">2.1.</span> <span class="nav-text">查看钱包信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取所有钱包地址及其账号名"><span class="nav-number">2.2.</span> <span class="nav-text">获取所有钱包地址及其账号名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询余额"><span class="nav-number">2.3.</span> <span class="nav-text">查询余额</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成钱包地址"><span class="nav-number">2.4.</span> <span class="nav-text">生成钱包地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询地址收到币的数量"><span class="nav-number">2.5.</span> <span class="nav-text">查询地址收到币的数量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询默认钱包地址"><span class="nav-number">2.6.</span> <span class="nav-text">查询默认钱包地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加密钱包"><span class="nav-number">2.7.</span> <span class="nav-text">加密钱包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解锁钱包"><span class="nav-number">2.8.</span> <span class="nav-text">解锁钱包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁定钱包"><span class="nav-number">2.9.</span> <span class="nav-text">锁定钱包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#备份钱包文件"><span class="nav-number">2.10.</span> <span class="nav-text">备份钱包文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入备份文件"><span class="nav-number">2.11.</span> <span class="nav-text">导入备份文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改钱包密码"><span class="nav-number">2.12.</span> <span class="nav-text">修改钱包密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导出所有钱包地址和私钥"><span class="nav-number">2.13.</span> <span class="nav-text">导出所有钱包地址和私钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入钱包和私钥"><span class="nav-number">2.14.</span> <span class="nav-text">导入钱包和私钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导出指定钱包地址的私钥"><span class="nav-number">2.15.</span> <span class="nav-text">导出指定钱包地址的私钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入指定钱包私钥"><span class="nav-number">2.16.</span> <span class="nav-text">导入指定钱包私钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取指定钱包地址的账号名"><span class="nav-number">2.17.</span> <span class="nav-text">获取指定钱包地址的账号名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入钱包地址及账号名"><span class="nav-number">2.18.</span> <span class="nav-text">导入钱包地址及账号名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入公钥"><span class="nav-number">2.19.</span> <span class="nav-text">导入公钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列出所有钱包地址对应的账号名及余额"><span class="nav-number">2.20.</span> <span class="nav-text">列出所有钱包地址对应的账号名及余额</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交易相关命令"><span class="nav-number">3.</span> <span class="nav-text">交易相关命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从默认账户给目标地址转账"><span class="nav-number">3.1.</span> <span class="nav-text">从默认账户给目标地址转账</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从指定账户转账"><span class="nav-number">3.2.</span> <span class="nav-text">从指定账户转账</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成区块"><span class="nav-number">3.3.</span> <span class="nav-text">生成区块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取交易列表"><span class="nav-number">3.4.</span> <span class="nav-text">获取交易列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据交易id查询交易详情"><span class="nav-number">3.5.</span> <span class="nav-text">根据交易id查询交易详情</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询未花费的交易"><span class="nav-number">3.6.</span> <span class="nav-text">查询未花费的交易</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成未签名交易"><span class="nav-number">3.7.</span> <span class="nav-text">生成未签名交易</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定找零地址及增加交易输入"><span class="nav-number">3.8.</span> <span class="nav-text">指定找零地址及增加交易输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交易签名"><span class="nav-number">3.9.</span> <span class="nav-text">交易签名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发送交易"><span class="nav-number">3.10.</span> <span class="nav-text">发送交易</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他命令"><span class="nav-number">4.</span> <span class="nav-text">其他命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#命令列表"><span class="nav-number">4.1.</span> <span class="nav-text">命令列表</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  By <span class="author" itemprop="copyrightHolder">不能吃的坚果</span>
+</div>
+
+<div class="theme-info">
+  <span class="post-count"># 博客全站共69.3k字</span>
+</div>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>

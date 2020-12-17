@@ -1,0 +1,1368 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="golang,zap," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  摘要zap是Uber开发的非常快的、结构化的，分日志级别的Go日志库。根据Uber-go Zap的文档，它的性能比类似的结构">
+<meta name="keywords" content="golang,zap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang高性能日志库zap的使用">
+<meta property="og:url" content="https://jian1098.github.io/2020/12/16/42.golang高性能日志库zap的使用/index.html">
+<meta property="og:site_name" content="小坚的技术博客">
+<meta property="og:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  摘要zap是Uber开发的非常快的、结构化的，分日志级别的Go日志库。根据Uber-go Zap的文档，它的性能比类似的结构">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-12-17T06:03:02.884Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang高性能日志库zap的使用">
+<meta name="twitter:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  摘要zap是Uber开发的非常快的、结构化的，分日志级别的Go日志库。根据Uber-go Zap的文档，它的性能比类似的结构">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jian1098.github.io/2020/12/16/42.golang高性能日志库zap的使用/"/>
+
+
+
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+  <title> golang高性能日志库zap的使用 | 小坚的技术博客 </title>
+</head>
+
+  	 <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script>
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c5707bae1fdaba765939b699e7e23e32";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小坚的技术博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">小坚的技术博客</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://jian1098.github.io/2020/12/16/42.golang高性能日志库zap的使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="不能吃的坚果">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="小坚的技术博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="小坚的技术博客" src="/images/header.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                golang高性能日志库zap的使用
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-16T16:55:33+08:00">
+                2020-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+             <span id="/2020/12/16/42.golang高性能日志库zap的使用/" class="leancloud_visitors" data-flag-title="golang高性能日志库zap的使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,561
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
+		  
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文作者：陈进坚<br>个人博客：<a href="https://jian1098.github.io">https://jian1098.github.io</a><br>CSDN博客：<a href="https://blog.csdn.net/c_jian" target="_blank" rel="noopener">https://blog.csdn.net/c_jian</a><br>简书：<a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" rel="noopener">https://www.jianshu.com/u/8ba9ac5706b6</a><br>联系方式：<a href="mailto:jian1098@qq.com" target="_blank" rel="noopener">jian1098@qq.com</a></p>
+</blockquote>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p><code>zap</code>是<code>Uber</code>开发的非常快的、结构化的，分日志级别的Go日志库。根据Uber-go Zap的文档，它的性能比类似的结构化日志包更好，也比标准库更快。具体的性能测试可以去<code>github</code>上看到。</p>
+<p>github地址：<code>https://github.com/uber-go/zap</code></p>
+<h3 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h3><p>通过调用<code>zap.NewProduction()</code>/<code>zap.NewDevelopment()</code>或者<code>zap.Example()</code>创建一个Logger。这三个方法的区别在于它将记录的信息不同，参数只能是<code>string</code>类型</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//代码</span><br><span class="line">var log *zap.Logger</span><br><span class="line">log = zap.NewExample()</span><br><span class="line">log, _ := zap.NewDevelopment()</span><br><span class="line">log, _ := zap.NewProduction()</span><br><span class="line">log.Debug("This is a DEBUG message")</span><br><span class="line">log.Info("This is an INFO message")</span><br><span class="line"></span><br><span class="line">//Example 输出</span><br><span class="line">&#123;<span class="attr">"level"</span>:<span class="string">"debug"</span>,<span class="attr">"msg"</span>:<span class="string">"This is a DEBUG message"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"level"</span>:<span class="string">"info"</span>,<span class="attr">"msg"</span>:<span class="string">"This is an INFO message"</span>&#125;</span><br><span class="line"></span><br><span class="line">//Development 输出</span><br><span class="line">2018-10-30T17:14:22.459+0800    DEBUG    development/main.go:7    This is a DEBUG message</span><br><span class="line">2018-10-30T17:14:22.459+0800    INFO    development/main.go:8    This is an INFO message</span><br><span class="line"></span><br><span class="line">//Production 输出</span><br><span class="line">&#123;<span class="attr">"level"</span>:<span class="string">"info"</span>,<span class="attr">"ts"</span>:<span class="number">1540891173.3190675</span>,<span class="attr">"caller"</span>:<span class="string">"production/main.go:8"</span>,<span class="attr">"msg"</span>:<span class="string">"This is an INFO message"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"level"</span>:<span class="string">"info"</span>,<span class="attr">"ts"</span>:<span class="number">1540891173.3191047</span>,<span class="attr">"caller"</span>:<span class="string">"production/main.go:9"</span>,<span class="attr">"msg"</span>:<span class="string">"This is an INFO message with fields"</span>,<span class="attr">"region"</span>:[<span class="string">"us-west"</span>],<span class="attr">"id"</span>:<span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>三种创建方式对比：</p>
+<ul>
+<li><code>Example</code>和<code>Production</code>使用的是<a href="https://godoc.org/go.uber.org/zap/zapcore#NewJSONEncoder" target="_blank" rel="noopener"><code>json</code></a>格式输出，<a href="https://godoc.org/go.uber.org/zap/zapcore#NewConsoleEncoder" target="_blank" rel="noopener"><code>Development</code></a>使用行的形式输出</li>
+<li><code>Development</code><ul>
+<li>从警告级别向上打印到堆栈中来跟踪</li>
+<li>始终打印包/文件/行（方法）</li>
+<li>在行尾添加任何额外字段作为json字符串</li>
+<li>以大写形式打印级别名称</li>
+<li>以毫秒为单位打印ISO8601格式的时间戳</li>
+</ul>
+</li>
+<li><code>Production</code><ul>
+<li>调试级别消息不记录</li>
+<li>Error,Dpanic级别的记录，会在堆栈中跟踪文件，Warn不会</li>
+<li>始终将调用者添加到文件中</li>
+<li>以时间戳格式打印日期</li>
+<li>以小写形式打印级别名称</li>
+</ul>
+</li>
+</ul>
+<h3 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h3><p>zap有两种类型，分别是<code>*zap.Logger</code>和<code>*zap.SugaredLogger</code>,它们惟一的区别是，我们通过调用主logger的<code>. Sugar()</code>方法来获取一个<code>SugaredLogger</code>，然后使用<code>SugaredLogger</code>以<code>printf</code>格式记录语句，例如</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sugarLogger *zap.SugaredLogger</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitLogger</span><span class="params">()</span></span> &#123;</span><br><span class="line">  logger, _ := zap.NewProduction()</span><br><span class="line">    sugarLogger = logger.Sugar()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    InitLogger()</span><br><span class="line">    <span class="keyword">defer</span> sugarLogger.Sync()</span><br><span class="line">    sugarLogger.Errorf(<span class="string">"Error fetching URL %s : Error = %s"</span>, url, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h3><p>默认情况下日志都会打印到应用程序的console界面，但是为了方便查询，可以将日志写入文件，但是我们不能再使用前面创建实例的3个方法，而是使用<code>zap.New()</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"go.uber.org/zap"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap/zapcore"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> log *zap.Logger</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	writeSyncer, _ := os.Create(<span class="string">"./info.log"</span>)							<span class="comment">//日志文件存放目录</span></span><br><span class="line">	encoderConfig := zap.NewProductionEncoderConfig()					 <span class="comment">//指定时间格式</span></span><br><span class="line">	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder</span><br><span class="line">	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder</span><br><span class="line">	encoder := zapcore.NewConsoleEncoder(encoderConfig)					<span class="comment">//获取编码器,NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">	core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel)	 <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line">	log = zap.New(core,zap.AddCaller())								   <span class="comment">//AddCaller()为显示文件名和行号</span></span><br><span class="line">	log.Info(<span class="string">"hello world"</span>)</span><br><span class="line">	log.Error(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>日志文件输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-12-16T17:53:30.466+0800	INFO	geth/main.go:18	hello world</span><br><span class="line">2020-12-16T17:53:30.486+0800	ERROR	geth/main.go:19	hello world</span><br></pre></td></tr></table></figure>
+<h3 id="同时输出控制台和文件"><a href="#同时输出控制台和文件" class="headerlink" title="同时输出控制台和文件"></a>同时输出控制台和文件</h3><p>如果需要同时输出控制台和文件，只需要改造一下<code>zapcore.NewCore</code>即可，示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/natefinch/lumberjack"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap/zapcore"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> log *zap.Logger</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//获取编码器,NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">	encoderConfig := zap.NewProductionEncoderConfig()</span><br><span class="line">	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder <span class="comment">//指定时间格式</span></span><br><span class="line">	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder</span><br><span class="line">	encoder := zapcore.NewConsoleEncoder(encoderConfig)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//文件writeSyncer</span></span><br><span class="line">	fileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">		Filename:   <span class="string">"./info.log"</span>, <span class="comment">//日志文件存放目录</span></span><br><span class="line">		MaxSize:    <span class="number">1</span>,            <span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">		MaxBackups: <span class="number">5</span>,            <span class="comment">//最大保留日志文件数量</span></span><br><span class="line">		MaxAge:     <span class="number">30</span>,           <span class="comment">//日志文件保留天数</span></span><br><span class="line">		Compress:   <span class="literal">false</span>,        <span class="comment">//是否压缩处理</span></span><br><span class="line">	&#125;)</span><br><span class="line">	fileCore := zapcore.NewCore(encoder, zapcore.NewMultiWriteSyncer(fileWriteSyncer,zapcore.AddSync(os.Stdout)), zapcore.DebugLevel) <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line"></span><br><span class="line">	log = zap.New(fileCore, zap.AddCaller()) <span class="comment">//AddCaller()为显示文件名和行号</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	log.Info(<span class="string">"hello world"</span>)</span><br><span class="line">	log.Error(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件切割"><a href="#文件切割" class="headerlink" title="文件切割"></a>文件切割</h3><p>日志文件会随时间越来越大，为了避免日志文件把硬盘空间占满，需要按条件对日志文件进行切割，zap包本身不提供文件切割的功能，但是可以用zap官方推荐的<code>lumberjack</code>包处理</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//文件writeSyncer</span></span><br><span class="line">fileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">	Filename:   <span class="string">"./info.log"</span>, <span class="comment">//日志文件存放目录，如果文件夹不存在会自动创建</span></span><br><span class="line">	MaxSize:    <span class="number">1</span>,            <span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">	MaxBackups: <span class="number">5</span>,            <span class="comment">//最大保留日志文件数量</span></span><br><span class="line">	MaxAge:     <span class="number">30</span>,           <span class="comment">//日志文件保留天数</span></span><br><span class="line">	Compress:   <span class="literal">false</span>,        <span class="comment">//是否压缩处理</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="按级别写入文件"><a href="#按级别写入文件" class="headerlink" title="按级别写入文件"></a>按级别写入文件</h3><p>为了管理人员的查询方便，一般我们需要将低于error级别的放到info.log，error及以上严重级别日志存放到error.log文件中，我们只需要改造一下<code>zapcore.NewCore</code>方法的第3个参数，然后将文件<code>WriteSyncer</code>拆成<code>info</code>和<code>error</code>两个即可，示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/natefinch/lumberjack"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap/zapcore"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> log *zap.Logger</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> coreArr []zapcore.Core</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取编码器</span></span><br><span class="line">	encoderConfig := zap.NewProductionEncoderConfig()				<span class="comment">//NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder 			<span class="comment">//指定时间格式</span></span><br><span class="line">	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder	<span class="comment">//按级别显示不同颜色，不需要的话取值zapcore.CapitalLevelEncoder就可以了</span></span><br><span class="line">	<span class="comment">//encoderConfig.EncodeCaller = zapcore.FullCallerEncoder      	//显示完整文件路径</span></span><br><span class="line">	encoder := zapcore.NewConsoleEncoder(encoderConfig)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//日志级别</span></span><br><span class="line">	highPriority := zap.LevelEnablerFunc(<span class="function"><span class="keyword">func</span><span class="params">(lev zapcore.Level)</span> <span class="title">bool</span></span>&#123;	<span class="comment">//error级别</span></span><br><span class="line">		<span class="keyword">return</span> lev &gt;= zap.ErrorLevel</span><br><span class="line">	&#125;)</span><br><span class="line">	lowPriority := zap.LevelEnablerFunc(<span class="function"><span class="keyword">func</span><span class="params">(lev zapcore.Level)</span> <span class="title">bool</span></span> &#123;	<span class="comment">//info和debug级别,debug级别是最低的</span></span><br><span class="line">		<span class="keyword">return</span> lev &lt; zap.ErrorLevel &amp;&amp; lev &gt;= zap.DebugLevel</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//info文件writeSyncer</span></span><br><span class="line">	infoFileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">		Filename:   <span class="string">"./log/info.log"</span>, 	<span class="comment">//日志文件存放目录，如果文件夹不存在会自动创建</span></span><br><span class="line">		MaxSize:    <span class="number">1</span>,            		<span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">		MaxBackups: <span class="number">5</span>,            		<span class="comment">//最大保留日志文件数量</span></span><br><span class="line">		MaxAge:     <span class="number">30</span>,           		<span class="comment">//日志文件保留天数</span></span><br><span class="line">		Compress:   <span class="literal">false</span>,        		<span class="comment">//是否压缩处理</span></span><br><span class="line">	&#125;)</span><br><span class="line">	infoFileCore := zapcore.NewCore(encoder, zapcore.NewMultiWriteSyncer(infoFileWriteSyncer,zapcore.AddSync(os.Stdout)), lowPriority) <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line">	<span class="comment">//error文件writeSyncer</span></span><br><span class="line">	errorFileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">		Filename:   <span class="string">"./log/error.log"</span>, 		<span class="comment">//日志文件存放目录</span></span><br><span class="line">		MaxSize:    <span class="number">1</span>,            			<span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">		MaxBackups: <span class="number">5</span>,            			<span class="comment">//最大保留日志文件数量</span></span><br><span class="line">		MaxAge:     <span class="number">30</span>,           			<span class="comment">//日志文件保留天数</span></span><br><span class="line">		Compress:   <span class="literal">false</span>,        			<span class="comment">//是否压缩处理</span></span><br><span class="line">	&#125;)</span><br><span class="line">	errorFileCore := zapcore.NewCore(encoder, zapcore.NewMultiWriteSyncer(errorFileWriteSyncer,zapcore.AddSync(os.Stdout)), highPriority) <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line"></span><br><span class="line">	coreArr = <span class="built_in">append</span>(coreArr, infoFileCore)</span><br><span class="line">	coreArr = <span class="built_in">append</span>(coreArr, errorFileCore)</span><br><span class="line">	log = zap.New(zapcore.NewTee(coreArr...), zap.AddCaller()) <span class="comment">//zap.AddCaller()为显示文件名和行号，可省略</span></span><br><span class="line"></span><br><span class="line">	log.Info(<span class="string">"hello info"</span>)</span><br><span class="line">	log.Debug(<span class="string">"hello debug"</span>)</span><br><span class="line">	log.Error(<span class="string">"hello error"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样修改之后，<code>info</code>和<code>debug</code>级别的日志就存放到<code>info.log</code>，<code>error</code>级别的日志单独放到<code>error.log</code>文件中了</p>
+<h3 id="控制台按级别显示颜色"><a href="#控制台按级别显示颜色" class="headerlink" title="控制台按级别显示颜色"></a>控制台按级别显示颜色</h3><p>指定编码器的<code>EncodeLevel</code>即可，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取编码器</span></span><br><span class="line">encoderConfig := zap.NewProductionEncoderConfig()				<span class="comment">//NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder 			<span class="comment">//指定时间格式</span></span><br><span class="line">encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder	<span class="comment">//按级别显示不同颜色，不需要的话取值zapcore.CapitalLevelEncoder就可以了</span></span><br><span class="line">encoder := zapcore.NewConsoleEncoder(encoderConfig)</span><br></pre></td></tr></table></figure>
+<h3 id="显示文件路径和行号"><a href="#显示文件路径和行号" class="headerlink" title="显示文件路径和行号"></a>显示文件路径和行号</h3><p>前面说到要显示文件路径和行号，只需要<code>zap.New</code>方法添加参数<code>zap.AddCaller()</code>即可，如果要显示完整的路径，需要在编码器配置中指定</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取编码器</span></span><br><span class="line">encoderConfig := zap.NewProductionEncoderConfig()				<span class="comment">//NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder 			<span class="comment">//指定时间格式</span></span><br><span class="line">encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder	<span class="comment">//按级别显示不同颜色，不需要的话取值zapcore.CapitalLevelEncoder就可以了</span></span><br><span class="line">encoderConfig.EncodeCaller = zapcore.FullCallerEncoder      	<span class="comment">//显示完整文件路径</span></span><br><span class="line">encoder := zapcore.NewConsoleEncoder(encoderConfig)</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/natefinch/lumberjack"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap/zapcore"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> log *zap.Logger</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> coreArr []zapcore.Core</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取编码器</span></span><br><span class="line">	encoderConfig := zap.NewProductionEncoderConfig()				<span class="comment">//NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder 			<span class="comment">//指定时间格式</span></span><br><span class="line">	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder	<span class="comment">//按级别显示不同颜色，不需要的话取值zapcore.CapitalLevelEncoder就可以了</span></span><br><span class="line">	<span class="comment">//encoderConfig.EncodeCaller = zapcore.FullCallerEncoder      	//显示完整文件路径</span></span><br><span class="line">	encoder := zapcore.NewConsoleEncoder(encoderConfig)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//日志级别</span></span><br><span class="line">	highPriority := zap.LevelEnablerFunc(<span class="function"><span class="keyword">func</span><span class="params">(lev zapcore.Level)</span> <span class="title">bool</span></span>&#123;	<span class="comment">//error级别</span></span><br><span class="line">		<span class="keyword">return</span> lev &gt;= zap.ErrorLevel</span><br><span class="line">	&#125;)</span><br><span class="line">	lowPriority := zap.LevelEnablerFunc(<span class="function"><span class="keyword">func</span><span class="params">(lev zapcore.Level)</span> <span class="title">bool</span></span> &#123;	<span class="comment">//info和debug级别,debug级别是最低的</span></span><br><span class="line">		<span class="keyword">return</span> lev &lt; zap.ErrorLevel &amp;&amp; lev &gt;= zap.DebugLevel</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//info文件writeSyncer</span></span><br><span class="line">	infoFileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">		Filename:   <span class="string">"./log/info.log"</span>, 	<span class="comment">//日志文件存放目录，如果文件夹不存在会自动创建</span></span><br><span class="line">		MaxSize:    <span class="number">2</span>,            		<span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">		MaxBackups: <span class="number">100</span>,            	<span class="comment">//最大保留日志文件数量</span></span><br><span class="line">		MaxAge:     <span class="number">30</span>,           		<span class="comment">//日志文件保留天数</span></span><br><span class="line">		Compress:   <span class="literal">false</span>,        		<span class="comment">//是否压缩处理</span></span><br><span class="line">	&#125;)</span><br><span class="line">	infoFileCore := zapcore.NewCore(encoder, zapcore.NewMultiWriteSyncer(infoFileWriteSyncer,zapcore.AddSync(os.Stdout)), lowPriority) <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line">	<span class="comment">//error文件writeSyncer</span></span><br><span class="line">	errorFileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">		Filename:   <span class="string">"./log/error.log"</span>, 		<span class="comment">//日志文件存放目录</span></span><br><span class="line">		MaxSize:    <span class="number">1</span>,            			<span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">		MaxBackups: <span class="number">5</span>,            			<span class="comment">//最大保留日志文件数量</span></span><br><span class="line">		MaxAge:     <span class="number">30</span>,           			<span class="comment">//日志文件保留天数</span></span><br><span class="line">		Compress:   <span class="literal">false</span>,        			<span class="comment">//是否压缩处理</span></span><br><span class="line">	&#125;)</span><br><span class="line">	errorFileCore := zapcore.NewCore(encoder, zapcore.NewMultiWriteSyncer(errorFileWriteSyncer,zapcore.AddSync(os.Stdout)), highPriority) <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line"></span><br><span class="line">	coreArr = <span class="built_in">append</span>(coreArr, infoFileCore)</span><br><span class="line">	coreArr = <span class="built_in">append</span>(coreArr, errorFileCore)</span><br><span class="line">	log = zap.New(zapcore.NewTee(coreArr...), zap.AddCaller()) <span class="comment">//zap.AddCaller()为显示文件名和行号，可省略</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	log.Info(<span class="string">"hello info"</span>)</span><br><span class="line">	log.Debug(<span class="string">"hello debug"</span>)</span><br><span class="line">	log.Error(<span class="string">"hello error"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p>[在Go语言项目中使用Zap日志库 - 知乎 (zhihu.com)</p>
+<p><a href="https://zhuanlan.zhihu.com/p/88856378?utm_source=wechat_session" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/ExMan/p/12264685.html" target="_blank" rel="noopener">golang高性能日志库zap配置示例 - ExplorerMan - 博客园 (cnblogs.com)</a></a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/golang/" rel="tag"><i class="fa fa-tag"></i> golang</a>
+          
+            <a href="/tags/zap/" rel="tag"><i class="fa fa-tag"></i> zap</a>
+          
+        </div>
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>🐶 您的支持将鼓励我继续创作 🐶</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赞赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-img.jpg" alt="不能吃的坚果 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-img.jpg" alt="不能吃的坚果 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+        
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+          <strong>本文作者：</strong>
+          <a href="/" title="欢迎访问 不能吃的坚果 的个人博客">不能吃的坚果</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文标题：</strong>
+          <a href="https://jian1098.github.io/2020/12/16/42.golang高性能日志库zap的使用/" title="golang高性能日志库zap的使用">golang高性能日志库zap的使用</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="https://jian1098.github.io/2020/12/16/42.golang高性能日志库zap的使用/" title="golang高性能日志库zap的使用">https://jian1098.github.io/2020/12/16/42.golang高性能日志库zap的使用/</a>
+        </li>
+
+        <li class="post-copyright-date">
+            <strong>发布时间：</strong>2020年12月16日 - 16时12分
+        </li>  
+
+        <li class="post-copyright-license">
+          <strong>版权声明： </strong>
+          本文由 不能吃的坚果 原创，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="license" target="_blank">保留署名-非商业性使用-禁止演绎 4.0-国际许可协议</a> </br>转载请保留以上声明信息！
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/14/9.geth常用操作/" rel="next" title="geth常用操作">
+                <i class="fa fa-chevron-left"></i> geth常用操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTE4OC8xNzczNg=="></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/header.jpg"
+               alt="不能吃的坚果" />
+          <p class="site-author-name" itemprop="name">不能吃的坚果</p>
+          <p class="site-description motion-element" itemprop="description">小坚的技术博客</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jian1098" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://blog.csdn.net/c_jian" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-rss"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/8ba9ac5706b6" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liyuechun.org/#blog" title="黎跃春区块链博客" target="_blank">黎跃春区块链博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://studygolang.com/" title="Go语言中文网" target="_blank">Go语言中文网</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建实例"><span class="nav-number">2.</span> <span class="nav-text">创建实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式化输出"><span class="nav-number">3.</span> <span class="nav-text">格式化输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入文件"><span class="nav-number">4.</span> <span class="nav-text">写入文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同时输出控制台和文件"><span class="nav-number">5.</span> <span class="nav-text">同时输出控制台和文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件切割"><span class="nav-number">6.</span> <span class="nav-text">文件切割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按级别写入文件"><span class="nav-number">7.</span> <span class="nav-text">按级别写入文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台按级别显示颜色"><span class="nav-number">8.</span> <span class="nav-text">控制台按级别显示颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示文件路径和行号"><span class="nav-number">9.</span> <span class="nav-text">显示文件路径和行号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整代码"><span class="nav-number">10.</span> <span class="nav-text">完整代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">11.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  By <span class="author" itemprop="copyrightHolder">不能吃的坚果</span>
+</div>
+
+<div class="theme-info">
+  <span class="post-count"># 博客全站共69.3k字</span>
+</div>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Wrt2sB6X9Y5rL16FKpdE0glr-gzGzoHsz", "tpoQDQMNIk0zDogwNlKBmNu2");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>
