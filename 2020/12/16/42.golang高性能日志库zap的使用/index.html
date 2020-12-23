@@ -114,7 +114,7 @@
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  摘要zap是Uber开发的非常快的、结构化的，分日志级别的Go日志库。根据Uber-go Zap的文档，它的性能比类似的结构">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-17T06:03:02.884Z">
+<meta property="og:updated_time" content="2020-12-17T06:56:25.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang高性能日志库zap的使用">
 <meta name="twitter:description" content="本文作者：陈进坚个人博客：https://jian1098.github.ioCSDN博客：https://blog.csdn.net/c_jian简书：https://www.jianshu.com/u/8ba9ac5706b6联系方式：jian1098@qq.com  摘要zap是Uber开发的非常快的、结构化的，分日志级别的Go日志库。根据Uber-go Zap的文档，它的性能比类似的结构">
@@ -608,7 +608,7 @@ $(function() {
 <h3 id="显示文件路径和行号"><a href="#显示文件路径和行号" class="headerlink" title="显示文件路径和行号"></a>显示文件路径和行号</h3><p>前面说到要显示文件路径和行号，只需要<code>zap.New</code>方法添加参数<code>zap.AddCaller()</code>即可，如果要显示完整的路径，需要在编码器配置中指定</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取编码器</span></span><br><span class="line">encoderConfig := zap.NewProductionEncoderConfig()				<span class="comment">//NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder 			<span class="comment">//指定时间格式</span></span><br><span class="line">encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder	<span class="comment">//按级别显示不同颜色，不需要的话取值zapcore.CapitalLevelEncoder就可以了</span></span><br><span class="line">encoderConfig.EncodeCaller = zapcore.FullCallerEncoder      	<span class="comment">//显示完整文件路径</span></span><br><span class="line">encoder := zapcore.NewConsoleEncoder(encoderConfig)</span><br></pre></td></tr></table></figure>
 <h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/natefinch/lumberjack"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap/zapcore"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> log *zap.Logger</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> coreArr []zapcore.Core</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取编码器</span></span><br><span class="line">	encoderConfig := zap.NewProductionEncoderConfig()				<span class="comment">//NewJSONEncoder()输出json格式，NewConsoleEncoder()输出普通文本格式</span></span><br><span class="line">	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder 			<span class="comment">//指定时间格式</span></span><br><span class="line">	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder	<span class="comment">//按级别显示不同颜色，不需要的话取值zapcore.CapitalLevelEncoder就可以了</span></span><br><span class="line">	<span class="comment">//encoderConfig.EncodeCaller = zapcore.FullCallerEncoder      	//显示完整文件路径</span></span><br><span class="line">	encoder := zapcore.NewConsoleEncoder(encoderConfig)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//日志级别</span></span><br><span class="line">	highPriority := zap.LevelEnablerFunc(<span class="function"><span class="keyword">func</span><span class="params">(lev zapcore.Level)</span> <span class="title">bool</span></span>&#123;	<span class="comment">//error级别</span></span><br><span class="line">		<span class="keyword">return</span> lev &gt;= zap.ErrorLevel</span><br><span class="line">	&#125;)</span><br><span class="line">	lowPriority := zap.LevelEnablerFunc(<span class="function"><span class="keyword">func</span><span class="params">(lev zapcore.Level)</span> <span class="title">bool</span></span> &#123;	<span class="comment">//info和debug级别,debug级别是最低的</span></span><br><span class="line">		<span class="keyword">return</span> lev &lt; zap.ErrorLevel &amp;&amp; lev &gt;= zap.DebugLevel</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//info文件writeSyncer</span></span><br><span class="line">	infoFileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">		Filename:   <span class="string">"./log/info.log"</span>, 	<span class="comment">//日志文件存放目录，如果文件夹不存在会自动创建</span></span><br><span class="line">		MaxSize:    <span class="number">2</span>,            		<span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">		MaxBackups: <span class="number">100</span>,            	<span class="comment">//最大保留日志文件数量</span></span><br><span class="line">		MaxAge:     <span class="number">30</span>,           		<span class="comment">//日志文件保留天数</span></span><br><span class="line">		Compress:   <span class="literal">false</span>,        		<span class="comment">//是否压缩处理</span></span><br><span class="line">	&#125;)</span><br><span class="line">	infoFileCore := zapcore.NewCore(encoder, zapcore.NewMultiWriteSyncer(infoFileWriteSyncer,zapcore.AddSync(os.Stdout)), lowPriority) <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line">	<span class="comment">//error文件writeSyncer</span></span><br><span class="line">	errorFileWriteSyncer := zapcore.AddSync(&amp;lumberjack.Logger&#123;</span><br><span class="line">		Filename:   <span class="string">"./log/error.log"</span>, 		<span class="comment">//日志文件存放目录</span></span><br><span class="line">		MaxSize:    <span class="number">1</span>,            			<span class="comment">//文件大小限制,单位MB</span></span><br><span class="line">		MaxBackups: <span class="number">5</span>,            			<span class="comment">//最大保留日志文件数量</span></span><br><span class="line">		MaxAge:     <span class="number">30</span>,           			<span class="comment">//日志文件保留天数</span></span><br><span class="line">		Compress:   <span class="literal">false</span>,        			<span class="comment">//是否压缩处理</span></span><br><span class="line">	&#125;)</span><br><span class="line">	errorFileCore := zapcore.NewCore(encoder, zapcore.NewMultiWriteSyncer(errorFileWriteSyncer,zapcore.AddSync(os.Stdout)), highPriority) <span class="comment">//第三个及之后的参数为写入文件的日志级别,ErrorLevel模式只记录error级别的日志</span></span><br><span class="line"></span><br><span class="line">	coreArr = <span class="built_in">append</span>(coreArr, infoFileCore)</span><br><span class="line">	coreArr = <span class="built_in">append</span>(coreArr, errorFileCore)</span><br><span class="line">	log = zap.New(zapcore.NewTee(coreArr...), zap.AddCaller()) <span class="comment">//zap.AddCaller()为显示文件名和行号，可省略</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	log.Info(<span class="string">"hello info"</span>)</span><br><span class="line">	log.Debug(<span class="string">"hello debug"</span>)</span><br><span class="line">	log.Error(<span class="string">"hello error"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p>[在Go语言项目中使用Zap日志库 - 知乎 (zhihu.com)</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://zhuanlan.zhihu.com/p/88856378?utm_source=wechat_session" target="_blank" rel="noopener">在Go语言项目中使用Zap日志库 - 知乎 (zhihu.com)</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/88856378?utm_source=wechat_session" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/ExMan/p/12264685.html" target="_blank" rel="noopener">golang高性能日志库zap配置示例 - ExplorerMan - 博客园 (cnblogs.com)</a></a></p>
 
       
@@ -713,6 +713,10 @@ $(function() {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/23/43.Golang生成bip39助记词、eth地址和密钥对/" rel="prev" title="Golang生成bip39助记词、eth地址和密钥对">
+                Golang生成bip39助记词、eth地址和密钥对 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -822,7 +826,7 @@ $(function() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -831,7 +835,7 @@ $(function() {
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -840,7 +844,7 @@ $(function() {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -957,7 +961,7 @@ $(function() {
 </div>
 
 <div class="theme-info">
-  <span class="post-count"># 博客全站共69.3k字</span>
+  <span class="post-count"># 博客全站共69.8k字</span>
 </div>
 <script>
 (function(){
