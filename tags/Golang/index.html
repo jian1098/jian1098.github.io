@@ -110,7 +110,7 @@
 <meta name="keywords" content="坚 陈进坚 博客 区块链 以太坊 比特币 小坚的技术博客">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小坚的技术博客">
-<meta property="og:url" content="https://jian1098.github.io/tags/golang/index.html">
+<meta property="og:url" content="https://jian1098.github.io/tags/Golang/index.html">
 <meta property="og:site_name" content="小坚的技术博客">
 <meta property="og:description" content="小坚的技术博客">
 <meta property="og:locale" content="zh-Hans">
@@ -144,7 +144,7 @@
 
 
 
-  <link rel="canonical" href="https://jian1098.github.io/tags/golang/"/>
+  <link rel="canonical" href="https://jian1098.github.io/tags/Golang/"/>
 
 
 
@@ -167,7 +167,7 @@
 </style>
 
 
-  <title> 标签: golang | 小坚的技术博客 </title>
+  <title> 标签: Golang | 小坚的技术博客 </title>
 </head>
 
   	 <!-- custom analytics part create by xiamo -->
@@ -409,7 +409,7 @@ $(function() {
   <div id="posts" class="posts-collapse">
     <div class="collection-title">
       <h2 >
-        golang
+        Golang
         <small>标签</small>
       </h2>
     </div>
@@ -422,65 +422,9 @@ $(function() {
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/2020/12/16/42.golang高性能日志库zap的使用/" itemprop="url">
+            <a class="post-title-link" href="/2020/12/14/4.Golang时间与时间戳的获取和转换/" itemprop="url">
               
-                <span itemprop="name">golang高性能日志库zap的使用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-12-16T16:55:33+08:00"
-              content="2020-12-16" >
-          12-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/12/14/33.go语言Gin框架教程/" itemprop="url">
-              
-                <span itemprop="name">go语言Gin框架教程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-12-14T15:10:38+08:00"
-              content="2020-12-14" >
-          12-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/12/14/29.go语言开启go-module/" itemprop="url">
-              
-                <span itemprop="name">go语言开启go-module</span>
+                <span itemprop="name">Golang时间与时间戳的获取和转换</span>
               
             </a>
         
@@ -542,7 +486,7 @@ $(function() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -560,7 +504,7 @@ $(function() {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-count">78</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -661,7 +605,7 @@ $(function() {
 </div>
 
 <div class="theme-info">
-  <span class="post-count"># 博客全站共72.6k字</span>
+  <span class="post-count"># 博客全站共74.0k字</span>
 </div>
 <script>
 (function(){
@@ -1010,6 +954,59 @@ $(function() {
             newcounter.set("url", url);
             newcounter.set("time", 1);
             newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>
+(null, {
               success: function(newcounter) {
                 var $element = $(document.getElementById(url));
                 $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
